@@ -1,3 +1,7 @@
+# 
+# Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
+# 
+
 import sublime, sublime_plugin
 
 class InsertCopyrightCommand(sublime_plugin.TextCommand):
