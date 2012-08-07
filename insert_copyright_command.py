@@ -3,8 +3,13 @@
 # 
 
 import datetime
+import os
+import shutil
 import sublime
 import sublime_plugin
+
+class MissingOwnerException(Exception):
+  pass
 
 class InsertCopyrightCommand(sublime_plugin.TextCommand):
   """
@@ -14,6 +19,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Initializes the InsertCopyrightCommand class.
     """
+    self.settings = sublime.load_settings("SublimeCopyright.sublime-settings")
     self.__get_block_comment_settings()
     self.view = view
 
@@ -21,9 +27,25 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Executes the copyright command by inserting the appropriate copyright text at the current selection point.
     """
-    year = datetime.date.today().year
-    copyrightText = self.__build_block_comment("Copyright (c) {0} by Lifted Studios.  All Rights Reserved." % (year))
-    self.view.replace(edit, self.view.sel()[0], copyrightText)
+    try:
+      year = datetime.date.today().year
+      
+      owner = self.settings.get("owner")
+      if not owner:
+        raise MissingOwnerException()
+
+      copyrightText = self.__build_block_comment("Copyright (c) {0!s} {1}.  All Rights Reserved.".format(year, owner))
+      self.view.replace(edit, self.view.sel()[0], copyrightText)
+
+    except MissingOwnerException:
+      sublime.error_message("SublimeCopyright: Copyright owner not set")
+      user_settings_path = os.path.join(sublime.packages_path(), 'User', 'SublimeCopyright.sublime-settings')
+
+      if not os.path.exists(user_settings_path):
+        default_settings_path = os.path.join(sublime.packages_path(), 'SublimeCopyright', 'SublimeCopyright.sublime-settings')
+        shutil.copy(default_settings_path, user_settings_path)
+
+      sublime.active_window().open_file(user_settings_path)
 
   def __build_block_comment(self, text):
     """
