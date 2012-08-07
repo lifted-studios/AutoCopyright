@@ -10,6 +10,9 @@ import sublime
 import sublime_plugin
 
 class MissingOwnerException(Exception):
+  """
+  Exception signifying that the copyright owner information has not been entered into the settings.
+  """
   pass
 
 class InsertCopyrightCommand(sublime_plugin.TextCommand):
