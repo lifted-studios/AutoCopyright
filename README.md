@@ -30,4 +30,4 @@ TODO
 
 Source: https://github.com/lee-dohm/SublimeCopyright
 
-Authors: [Lee Dohm](https://github.com/lee-dohm/)
+Authors: [Lee Dohm](https://github.com/lee-dohm/), [Lifted Studios](https://github.com/lifted-studios/)
