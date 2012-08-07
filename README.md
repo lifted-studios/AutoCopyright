@@ -4,7 +4,7 @@ A [Sublime Text 2](http://www.sublimetext.com/) plugin to automate adding and up
 
 # Installation
 
-## Package Control
+## TODO: Package Control
 
 Install [Package Control](http://wbond.net/sublime_packages/package_control).  SublimeCopyright will show up in the package list.  This is the recommended installation method.
 
