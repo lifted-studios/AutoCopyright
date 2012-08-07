@@ -1,7 +1,8 @@
 # 
-# Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
+# Copyright (c) 2012 Lifted Studios.  All Rights Reserved.
 # 
 
+import constants
 import datetime
 import os
 import shutil
@@ -19,7 +20,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Initializes the InsertCopyrightCommand class.
     """
-    self.settings = sublime.load_settings("SublimeCopyright.sublime-settings")
+    self.settings = sublime.load_settings(constants.SETTINGS_FILE)
     self.__get_block_comment_settings()
     self.view = view
 
@@ -39,10 +40,10 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
 
     except MissingOwnerException:
       sublime.error_message("SublimeCopyright: Copyright owner not set")
-      user_settings_path = os.path.join(sublime.packages_path(), 'User', 'SublimeCopyright.sublime-settings')
+      user_settings_path = os.path.join(sublime.packages_path(), 'User', constants.SETTINGS_FILE)
 
       if not os.path.exists(user_settings_path):
-        default_settings_path = os.path.join(sublime.packages_path(), 'SublimeCopyright', 'SublimeCopyright.sublime-settings')
+        default_settings_path = os.path.join(sublime.packages_path(), 'SublimeCopyright', constants.SETTINGS_FILE)
         shutil.copy(default_settings_path, user_settings_path)
 
       sublime.active_window().open_file(user_settings_path)
@@ -64,6 +65,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Determines the appropriate block comment characters for the currently selected syntax.
     """
-    self.firstLine = "# "
-    self.middleLine = "# "
-    self.lastLine = "# "
+    comments = self.settings.get('comments')['Default']
+    self.firstLine = comments[0]
+    self.middleLine = comments[1]
+    self.lastLine = comments[2]
