@@ -23,8 +23,6 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Initializes the InsertCopyrightCommand class.
     """
-    self.settings = sublime.load_settings(constants.SETTINGS_FILE)
-    self.__get_block_comment_settings()
     self.view = view
 
   def description(self, *args):
@@ -38,6 +36,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     Executes the copyright command by inserting the appropriate copyright text at the current selection point.
     """
     try:
+      self.__get_block_comment_settings()
       year = datetime.date.today().year
       
       owner = self.settings.get("owner")
@@ -76,6 +75,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Determines the appropriate block comment characters for the currently selected syntax.
     """
+    self.settings = sublime.load_settings(constants.SETTINGS_FILE)
     comments = self.settings.get('comments')['Default']
     self.firstLine = comments[0]
     self.middleLine = comments[1]
