@@ -61,13 +61,18 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Builds a block comment and puts the given text into it.
     """
-    def make_comment(line): return self.middleLine + line + "\n"
+    if self.view.line_endings() == 'Unix':
+      endings = u'\u000a'
+    else:
+      endings = u'\u000a\u000d'
+
+    def make_comment(line): return self.middleLine + line + endings
     def concatenate(x, y): return x + y
 
-    comment = self.firstLine + "\n"
-    lines = map(make_comment, text.split("\n"))
+    comment = self.firstLine + endings
+    lines = map(make_comment, text.split(endings))
     comment += reduce(concatenate, lines)
-    comment += self.lastLine + "\n"
+    comment += self.lastLine + endings
     return comment
 
   def __get_block_comment_settings(self):
