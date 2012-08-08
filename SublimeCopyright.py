@@ -17,7 +17,7 @@ class MissingOwnerException(Exception):
 
 class InsertCopyrightCommand(sublime_plugin.TextCommand):
   """
-  Inserts the copyright text.
+  Inserts the copyright text at the location of the current selection.
   """
   def __init__(self, view):
     """
@@ -26,6 +26,12 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     self.settings = sublime.load_settings(constants.SETTINGS_FILE)
     self.__get_block_comment_settings()
     self.view = view
+
+  def description(self, *args):
+    """
+    Describes the command.
+    """
+    return "Inserts the copyright text at the location of the current selection."
 
   def run(self, edit):
     """
