@@ -61,10 +61,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Builds a block comment and puts the given text into it.
     """
-    if self.view.line_endings() == 'Unix':
-      endings = u'\u000a'
-    else:
-      endings = u'\u000a\u000d'
+    endings = __get_line_endings()
 
     def make_comment(line): return self.middleLine + line + endings
     def concatenate(x, y): return x + y
@@ -83,3 +80,17 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     self.firstLine = comments[0]
     self.middleLine = comments[1]
     self.lastLine = comments[2]
+
+  def __get_line_endings(self):
+    """
+    Gets the appropriate line endings for the view.
+
+    Unix and Mac OS X use the LF character.  Windows uses the CRLF pair.  Old versions of Mac OS used just the CR character.
+    """
+    if self.view.line_endings() == 'Unix':
+      return u'\u000a'
+    else if self.view.line_endings() == 'Windows':
+      return u'\u000a\u000d'
+    else:
+      return u'\u000d'
+
