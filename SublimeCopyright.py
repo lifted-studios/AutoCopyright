@@ -2,6 +2,7 @@
 # Copyright (c) 2012 Lifted Studios.  All Rights Reserved.
 # 
 
+import comment
 import constants
 import datetime
 import os
@@ -24,6 +25,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     Initializes the InsertCopyrightCommand class.
     """
     self.view = view
+    self.settings = sublime.load_settings(constants.SETTINGS_FILE)
 
   def description(self, *args):
     """
@@ -60,7 +62,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Builds a block comment and puts the given text into it.
     """
-    endings = __get_line_endings()
+    endings = self.__get_line_endings()
 
     def make_comment(line): return self.middleLine + line + endings
     def concatenate(x, y): return x + y
@@ -75,11 +77,15 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Determines the appropriate block comment characters for the currently selected syntax.
     """
-    self.settings = sublime.load_settings(constants.SETTINGS_FILE)
-    comments = self.settings.get('comments')['Default']
-    self.firstLine = comments[0]
-    self.middleLine = comments[1]
-    self.lastLine = comments[2]
+    lineComments, blockComments = comment.build_comment_data(self.view, 0)
+    if len(blockComments) == 0:
+      self.firstLine = lineComments[0][0]
+      self.middleLine = lineComments[0][0]
+      self.lastLine = lineComments[0][0]
+    else:
+      self.firstLine = blockComments[0][0]
+      self.middleLine = ''
+      self.lastLine = blockComments[0][1]
 
   def __get_line_endings(self):
     """
@@ -89,7 +95,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     if self.view.line_endings() == 'Unix':
       return u'\u000a'
-    else if self.view.line_endings() == 'Windows':
+    elif self.view.line_endings() == 'Windows':
       return u'\u000a\u000d'
     else:
       return u'\u000d'
