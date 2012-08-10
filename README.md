@@ -12,7 +12,7 @@ Install [Package Control](http://wbond.net/sublime_packages/package_control).  S
 
 Go to the "Packages" directory (`Preferences` / `Browse Packages...`).  Then clone this repository:
 
-    git clone git://github.com/lee-dohm/SublimeCopyright
+    git clone git://github.com/lifted-studios/SublimeCopyright
 
 # Options
 
