@@ -4,7 +4,7 @@ A [Sublime Text 2](http://www.sublimetext.com/) plugin to automate adding and up
 
 # Installation
 
-## TODO: Package Control
+## Package Control
 
 Install [Package Control](http://wbond.net/sublime_packages/package_control).  SublimeCopyright will show up in the package list.  This is the recommended installation method.
 
@@ -24,10 +24,10 @@ Edit the settings file (it should open automatically the first time you use a Su
 
 # Usage
 
-TODO
+The function shows up in the Command Palette as "Copyright: Insert Copyright".
 
 # Information
 
-Source: https://github.com/lee-dohm/SublimeCopyright
+Source: https://github.com/lifted-studios/SublimeCopyright
 
 Authors: [Lee Dohm](https://github.com/lee-dohm/), [Lifted Studios](https://github.com/lifted-studios/)
