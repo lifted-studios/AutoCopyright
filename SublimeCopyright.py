@@ -6,6 +6,7 @@ import comment
 import constants
 import datetime
 import os
+import re
 import shutil
 import sublime
 import sublime_plugin
@@ -45,8 +46,10 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
       if not owner:
         raise MissingOwnerException()
 
+      location = self.__determine_location()
+
       copyrightText = self.__build_block_comment("Copyright (c) {0!s} {1}.  All Rights Reserved.".format(year, owner))
-      self.view.replace(edit, self.view.sel()[0], copyrightText)
+      self.view.insert(edit, location, copyrightText)
 
     except MissingOwnerException:
       sublime.error_message("SublimeCopyright: Copyright owner not set")
@@ -72,6 +75,17 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     comment += reduce(concatenate, lines)
     comment += self.lastLine + endings
     return comment
+
+  def __determine_location(self):
+    """
+    Figures out the right location for the copyright text.
+    """
+    region = self.view.full_line(0)
+    line = self.view.substr(region)
+    if re.match("^#!", line):
+      return region.end()
+    else:
+      return 0
 
   def __get_block_comment_settings(self):
     """
