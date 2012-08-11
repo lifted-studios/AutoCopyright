@@ -1,5 +1,5 @@
 # 
-# Copyright (c) 2012 Lifted Studios.  All Rights Reserved.
+# Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
 # 
 
 import comment
@@ -47,8 +47,11 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
         raise MissingOwnerException()
 
       location = self.__determine_location()
+      text = self.settings.get("copyright message")
+      text = text.replace("%y", str(year))
+      text = text.replace("%o", owner)
 
-      copyrightText = self.__build_block_comment("Copyright (c) {0!s} {1}.  All Rights Reserved.".format(year, owner))
+      copyrightText = self.__build_block_comment(text)
       self.view.insert(edit, location, copyrightText)
 
     except MissingOwnerException:

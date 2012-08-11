@@ -1,12 +1,12 @@
-# SublimeCopyright
+# Lifted Copyright
 
-A [Sublime Text 2](http://www.sublimetext.com/) plugin to automate adding and updating the appropriate copyright text at the top of every file.
+A [Sublime Text 2](http://www.sublimetext.com/) plugin to automate adding the appropriate copyright text at the top of every file.
 
 # Installation
 
 ## Package Control
 
-Install [Package Control](http://wbond.net/sublime_packages/package_control).  SublimeCopyright will show up in the package list.  This is the recommended installation method.
+Install [Package Control](http://wbond.net/sublime_packages/package_control).  Lifted Copyright will show up in the package list.  This is the recommended installation method.
 
 ## Manual installation
 
@@ -16,7 +16,7 @@ Go to the "Packages" directory (`Preferences` / `Browse Packages...`).  Then clo
 
 # Options
 
-Edit the settings file (it should open automatically the first time you use a SublimeCopyright command):
+Edit the settings file (it should open automatically the first time you use a Lifted Copyright command):
 
 *   `"owner": ""`
 
@@ -25,6 +25,10 @@ Edit the settings file (it should open automatically the first time you use a Su
 # Usage
 
 The function shows up in the Command Palette as "Copyright: Insert Copyright".
+
+## Insert Copyright
+
+Adds the copyright text to the beginning of the file.  It will add itself after a shebang line, if any.
 
 # Information
 
