@@ -75,7 +75,7 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Formats the text of the copyright message.
     """
-    text = self.settings.get("copyright message")
+    text = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
     text = text.replace("%y", str(year))
     text = text.replace("%o", owner)
 
@@ -101,9 +101,9 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
 
     Unix and Mac OS X use the LF character.  Windows uses the CRLF pair.  Old versions of Mac OS used just the CR character.
     """
-    if self.view.line_endings() == 'Unix':
+    if self.view.line_endings() == constants.LINE_ENDING_UNIX:
       return u'\u000a'
-    elif self.view.line_endings() == 'Windows':
+    elif self.view.line_endings() == constants.LINE_ENDING_WINDOWS:
       return u'\u000a\u000d'
     else:
       return u'\u000d'
@@ -122,11 +122,11 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     """
     Opens the settings file and suggests the user edit it with the proper owner name.
     """
-    sublime.error_message("Lifted Copyright: Copyright owner not set")
-    user_settings_path = os.path.join(sublime.packages_path(), 'User', constants.SETTINGS_FILE)
+    sublime.error_message("Auto Copyright: Copyright owner not set")
+    user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER, constants.SETTINGS_FILE)
 
     if not os.path.exists(user_settings_path):
-      default_settings_path = os.path.join(sublime.packages_path(), 'SublimeCopyright', constants.SETTINGS_FILE)
+      default_settings_path = os.path.join(sublime.packages_path(), constants.PLUGIN_NAME, constants.SETTINGS_FILE)
       shutil.copy(default_settings_path, user_settings_path)
 
     sublime.active_window().open_file(user_settings_path)

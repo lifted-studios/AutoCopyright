@@ -1,4 +1,4 @@
-# Lifted Copyright
+# Auto Copyright
 
 A [Sublime Text 2](http://www.sublimetext.com/) plugin to automate adding the appropriate copyright text at the top of every file.
 
@@ -6,17 +6,17 @@ A [Sublime Text 2](http://www.sublimetext.com/) plugin to automate adding the ap
 
 ## Package Control
 
-Install [Package Control](http://wbond.net/sublime_packages/package_control).  Lifted Copyright will show up in the package list.  This is the recommended installation method.
+Install [Package Control](http://wbond.net/sublime_packages/package_control).  Auto Copyright will show up in the package list.  This is the recommended installation method.
 
 ## Manual installation
 
 Go to the "Packages" directory (`Preferences` / `Browse Packages...`).  Then clone this repository:
 
-    git clone git://github.com/lifted-studios/SublimeCopyright
+    git clone git://github.com/lifted-studios/AutoCopyright
 
 # Options
 
-Edit the settings file (it should open automatically the first time you use a Lifted Copyright command):
+Edit the settings file (it should open automatically the first time you use an Auto Copyright command):
 
 *   `"owner": ""`
 

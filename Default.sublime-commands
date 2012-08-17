@@ -1,6 +1,6 @@
 [
     {
-        "caption": "Copyright: Insert Copyright",
+        "caption": "Auto Copyright: Insert Copyright",
         "command": "insert_copyright"
     }
 ]
