@@ -24,7 +24,7 @@ Edit the settings file (it should open automatically the first time you use an A
 
 # Usage
 
-The function shows up in the Command Palette as "Copyright: Insert Copyright".
+The function shows up in the Command Palette as "Auto Copyright: Insert Copyright".
 
 ## Insert Copyright
 
@@ -32,6 +32,6 @@ Adds the copyright text to the beginning of the file.  It will add itself after 
 
 # Information
 
-Source: https://github.com/lifted-studios/SublimeCopyright
+Source: https://github.com/lifted-studios/AutoCopyright
 
 Authors: [Lee Dohm](https://github.com/lee-dohm/), [Lifted Studios](https://github.com/lifted-studios/)
