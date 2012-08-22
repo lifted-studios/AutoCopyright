@@ -17,17 +17,107 @@ class MissingOwnerException(Exception):
   """
   pass
 
-class InsertCopyrightCommand(sublime_plugin.TextCommand):
+class CopyrightCommand(sublime_plugin.TextCommand):
   """
-  Inserts the copyright text at the location of the current selection.
+  Common functionality for the Auto Copyright command classes.
   """
   def __init__(self, view):
     """
-    Initializes the InsertCopyrightCommand class.
+    Initializes the UpdateCopyrightCommand class.
     """
-    self.view = view
     self.settings = sublime.load_settings(constants.SETTINGS_FILE)
+    self.view = view
 
+  def format_text(self, year, owner):
+    """
+    Formats the text of the copyright message.
+    """
+    text = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
+    text = text.replace("%y", str(year))
+    text = text.replace("%o", owner)
+
+    return text    
+
+  def get_owner(self):
+    """
+    Gets the copyright owner name that should be used in the copyright message.
+    """
+    owner = self.settings.get("owner")
+    if not owner:
+      raise MissingOwnerException()
+
+    return owner
+
+  def handle_missing_owner_exception(self):
+    """
+    Opens the settings file and suggests the user edit it with the proper owner name.
+    """
+    sublime.error_message("Auto Copyright: Copyright owner not set")
+    user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER, constants.SETTINGS_FILE)
+
+    if not os.path.exists(user_settings_path):
+      default_settings_path = os.path.join(sublime.packages_path(), constants.PLUGIN_NAME, constants.SETTINGS_FILE)
+      shutil.copy(default_settings_path, user_settings_path)
+
+    sublime.active_window().open_file(user_settings_path)
+
+class UpdateCopyrightCommand(CopyrightCommand):
+  """
+  Updates the copyright text, if present.
+  """
+  def run(self, edit):
+    """
+    Executes the update command by searching for the copyright text and replacing it, if necessary.
+    """
+    try:
+      print "Starting Update Copyright Command"
+      self.__update_copyright(edit)
+
+    except MissingOwnerException:
+      self.handle_missing_owner_exception()
+
+  def __update_copyright(self, edit):
+    """
+    Finds the copyright text and replaces it by updating the year if it has changed.
+    """
+    pattern = self.__format_pattern()
+    print pattern
+    region = self.__find_pattern(pattern)
+    print region
+
+    if region:
+      oldYear = self.__get_old_year(region, pattern)
+      print oldYear
+      newYear = str(datetime.date.today().year)
+      if oldYear != newYear:
+        self.__replace_match(edit, region, oldYear, newYear)
+
+  def __format_pattern(self):
+    message = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
+    message = message.replace("(", "\\(")
+    message = message.replace(")", "\\)")
+    message = message.replace("%o", self.get_owner())
+    pattern = message.replace("%y", "(\d+)(-\d+)?")
+
+    return pattern
+
+  def __find_pattern(self, pattern):
+    return self.view.find(pattern, 0)
+
+  def __get_old_year(self, region, pattern):
+    text = self.view.substr(region)
+    match = re.match(pattern, text)
+    return match.group(1)
+
+  def __replace_match(self, edit, region, oldYear, newYear):
+    owner = self.get_owner()
+    message = self.format_text(oldYear + "-" + newYear, owner)
+    self.view.replace(edit, region, message)
+
+class InsertCopyrightCommand(CopyrightCommand):
+  """
+  Inserts the copyright text at the top of the file.
+  """
   def description(self, *args):
     """
     Describes the command.
@@ -71,16 +161,6 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     else:
       return 0
 
-  def __format_text(self, year, owner):
-    """
-    Formats the text of the copyright message.
-    """
-    text = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
-    text = text.replace("%y", str(year))
-    text = text.replace("%o", owner)
-
-    return text    
-
   def __get_block_comment_settings(self):
     """
     Determines the appropriate block comment characters for the currently selected syntax.
@@ -108,37 +188,14 @@ class InsertCopyrightCommand(sublime_plugin.TextCommand):
     else:
       return u'\u000d'
 
-  def __get_owner(self):
-    """
-    Gets the copyright owner name that should be used in the copyright message.
-    """
-    owner = self.settings.get("owner")
-    if not owner:
-      raise MissingOwnerException()
-
-    return owner
-
-  def __handle_missing_owner_exception(self):
-    """
-    Opens the settings file and suggests the user edit it with the proper owner name.
-    """
-    sublime.error_message("Auto Copyright: Copyright owner not set")
-    user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER, constants.SETTINGS_FILE)
-
-    if not os.path.exists(user_settings_path):
-      default_settings_path = os.path.join(sublime.packages_path(), constants.PLUGIN_NAME, constants.SETTINGS_FILE)
-      shutil.copy(default_settings_path, user_settings_path)
-
-    sublime.active_window().open_file(user_settings_path)
-
   def __insert_copyright(self, edit):
     """
     Inserts the copyright message into the view.
     """
     year = datetime.date.today().year
-    owner = self.__get_owner()
+    owner = self.get_owner()
     location = self.__determine_location()
-    text = self.__format_text(year, owner)
+    text = self.format_text(year, owner)
     copyrightText = self.__build_block_comment(text)
 
     self.view.insert(edit, location, copyrightText)
