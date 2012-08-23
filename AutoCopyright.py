@@ -89,6 +89,9 @@ class UpdateCopyrightCommand(CopyrightCommand):
         self.__replace_match(edit, region, oldYear, newYear)
 
   def __format_pattern(self):
+    '''
+    Takes the copyright message and turns it into a pattern to find pre-existing copyright text.
+    '''
     message = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
     message = message.replace("%o", "ooowner")
     message = message.replace("%y", "yyyear")
@@ -99,14 +102,23 @@ class UpdateCopyrightCommand(CopyrightCommand):
     return pattern
 
   def __find_pattern(self, pattern):
+    '''
+    Find the pattern in the view and return the Region, if it exists.
+    '''
     return self.view.find(pattern, 0)
 
   def __get_old_year(self, region, pattern):
+    '''
+    Extract the old year from the pre-existing copyright text.
+    '''
     text = self.view.substr(region)
     match = re.match(pattern, text)
     return match.group(1)
 
   def __replace_match(self, edit, region, oldYear, newYear):
+    '''
+    Replace the old copyright text with the new copyright text.
+    '''
     owner = self.get_owner()
     message = self.format_text(oldYear + "-" + newYear, owner)
     self.view.replace(edit, region, message)
