@@ -70,7 +70,6 @@ class UpdateCopyrightCommand(CopyrightCommand):
     Executes the update command by searching for the copyright text and replacing it, if necessary.
     """
     try:
-      print "Starting Update Copyright Command"
       self.__update_copyright(edit)
 
     except MissingOwnerException:
@@ -81,23 +80,21 @@ class UpdateCopyrightCommand(CopyrightCommand):
     Finds the copyright text and replaces it by updating the year if it has changed.
     """
     pattern = self.__format_pattern()
-    print pattern
     region = self.__find_pattern(pattern)
-    print region
 
     if region:
       oldYear = self.__get_old_year(region, pattern)
-      print oldYear
       newYear = str(datetime.date.today().year)
       if oldYear != newYear:
         self.__replace_match(edit, region, oldYear, newYear)
 
   def __format_pattern(self):
     message = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
-    message = message.replace("(", "\\(")
-    message = message.replace(")", "\\)")
-    message = message.replace("%o", self.get_owner())
-    pattern = message.replace("%y", "(\d+)(-\d+)?")
+    message = message.replace("%o", "ooowner")
+    message = message.replace("%y", "yyyear")
+    message = re.escape(message)
+    message = message.replace("ooowner", self.get_owner())
+    pattern = message.replace("yyyear", "(\d+)(-\d+)?")
 
     return pattern
 
