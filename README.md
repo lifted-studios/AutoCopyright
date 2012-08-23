@@ -4,10 +4,6 @@ A [Sublime Text 2](http://www.sublimetext.com/) plugin to automate adding the ap
 
 # Installation
 
-## Package Control
-
-Install [Package Control](http://wbond.net/sublime_packages/package_control).  Auto Copyright will show up in the package list.  This is the recommended installation method.
-
 ## Manual installation
 
 Go to the "Packages" directory (`Preferences` / `Browse Packages...`).  Then clone this repository:
@@ -24,11 +20,15 @@ Edit the settings file (it should open automatically the first time you use an A
 
 # Usage
 
-The function shows up in the Command Palette as "Auto Copyright: Insert Copyright".
+Two functions will show up in the Command Palette under "Auto Copyright".
 
 ## Insert Copyright
 
 Adds the copyright text to the beginning of the file.  It will add itself after a shebang line, if any.
+
+## Update Copyright
+
+Updates the copyright text already present in the file, but only if the text matches, including the copyright owner name except for the year.  It will update the copyright year to include all years between the original year and this one.
 
 # Information
 
