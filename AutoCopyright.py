@@ -12,26 +12,26 @@ import sublime
 import sublime_plugin
 
 class MissingOwnerException(Exception):
-  """
+  '''
   Exception signifying that the copyright owner information has not been entered into the settings.
-  """
+  '''
   pass
 
 class CopyrightCommand(sublime_plugin.TextCommand):
-  """
+  '''
   Common functionality for the Auto Copyright command classes.
-  """
+  '''
   def __init__(self, view):
-    """
+    '''
     Initializes the CopyrightCommand class.
-    """
+    '''
     self.settings = sublime.load_settings(constants.SETTINGS_FILE)
     self.view = view
 
   def format_text(self, year, owner):
-    """
+    '''
     Formats the text of the copyright message.
-    """
+    '''
     text = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
     text = text.replace("%y", str(year))
     text = text.replace("%o", owner)
@@ -39,9 +39,9 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     return text    
 
   def get_owner(self):
-    """
+    '''
     Gets the copyright owner name that should be used in the copyright message.
-    """
+    '''
     owner = self.settings.get(constants.SETTING_OWNER)
     if not owner:
       raise MissingOwnerException()
@@ -49,9 +49,9 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     return owner
 
   def handle_missing_owner_exception(self):
-    """
+    '''
     Opens the settings file and suggests the user edit it with the proper owner name.
-    """
+    '''
     sublime.error_message("Auto Copyright: Default copyright owner not set.  Please edit the settings file to correct this.")
     user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER, constants.SETTINGS_FILE)
 
@@ -62,13 +62,13 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     sublime.active_window().open_file(user_settings_path)
 
 class UpdateCopyrightCommand(CopyrightCommand):
-  """
+  '''
   Updates the copyright text, if present.
-  """
+  '''
   def run(self, edit):
-    """
+    '''
     Executes the update command by searching for the copyright text and replacing it, if necessary.
-    """
+    '''
     try:
       self.__update_copyright(edit)
 
@@ -76,9 +76,9 @@ class UpdateCopyrightCommand(CopyrightCommand):
       self.handle_missing_owner_exception()
 
   def __update_copyright(self, edit):
-    """
+    '''
     Finds the copyright text and replaces it by updating the year if it has changed.
-    """
+    '''
     pattern = self.__format_pattern()
     region = self.__find_pattern(pattern)
 
@@ -112,19 +112,19 @@ class UpdateCopyrightCommand(CopyrightCommand):
     self.view.replace(edit, region, message)
 
 class InsertCopyrightCommand(CopyrightCommand):
-  """
+  '''
   Inserts the copyright text at the top of the file.
-  """
+  '''
   def description(self, *args):
-    """
+    '''
     Describes the command.
-    """
+    '''
     return "Inserts the copyright text at the location of the current selection."
 
   def run(self, edit):
-    """
+    '''
     Executes the copyright command by inserting the appropriate copyright text at the current selection point.
-    """
+    '''
     try:
       self.__insert_copyright(edit)
 
@@ -132,9 +132,9 @@ class InsertCopyrightCommand(CopyrightCommand):
       self.__handle_missing_owner_exception()
 
   def __build_block_comment(self, text):
-    """
+    '''
     Builds a block comment and puts the given text into it.
-    """
+    '''
     self.__get_block_comment_settings()
     endings = self.__get_line_endings()
 
@@ -148,9 +148,9 @@ class InsertCopyrightCommand(CopyrightCommand):
     return comment
 
   def __determine_location(self):
-    """
+    '''
     Figures out the right location for the copyright text.
-    """
+    '''
     region = self.view.full_line(0)
     line = self.view.substr(region)
     if re.match("^#!", line):
@@ -159,9 +159,9 @@ class InsertCopyrightCommand(CopyrightCommand):
       return 0
 
   def __get_block_comment_settings(self):
-    """
+    '''
     Determines the appropriate block comment characters for the currently selected syntax.
-    """
+    '''
     lineComments, blockComments = comment.build_comment_data(self.view, 0)
     if len(blockComments) == 0:
       self.firstLine = lineComments[0][0]
@@ -173,11 +173,11 @@ class InsertCopyrightCommand(CopyrightCommand):
       self.lastLine = blockComments[0][1]
 
   def __get_line_endings(self):
-    """
+    '''
     Gets the appropriate line endings for the view.
 
     Unix and Mac OS X use the LF character.  Windows uses the CRLF pair.  Old versions of Mac OS used just the CR character.
-    """
+    '''
     if self.view.line_endings() == constants.LINE_ENDING_UNIX:
       return u'\u000a'
     elif self.view.line_endings() == constants.LINE_ENDING_WINDOWS:
@@ -186,9 +186,9 @@ class InsertCopyrightCommand(CopyrightCommand):
       return u'\u000d'
 
   def __insert_copyright(self, edit):
-    """
+    '''
     Inserts the copyright message into the view.
-    """
+    '''
     year = datetime.date.today().year
     owner = self.get_owner()
     location = self.__determine_location()
