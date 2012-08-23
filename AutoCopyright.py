@@ -42,7 +42,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     """
     Gets the copyright owner name that should be used in the copyright message.
     """
-    owner = self.settings.get("owner")
+    owner = self.settings.get(constants.SETTING_OWNER)
     if not owner:
       raise MissingOwnerException()
 
