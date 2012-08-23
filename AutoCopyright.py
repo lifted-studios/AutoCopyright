@@ -23,7 +23,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
   """
   def __init__(self, view):
     """
-    Initializes the UpdateCopyrightCommand class.
+    Initializes the CopyrightCommand class.
     """
     self.settings = sublime.load_settings(constants.SETTINGS_FILE)
     self.view = view
@@ -52,7 +52,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     """
     Opens the settings file and suggests the user edit it with the proper owner name.
     """
-    sublime.error_message("Auto Copyright: Copyright owner not set")
+    sublime.error_message("Auto Copyright: Default copyright owner not set.  Please edit the settings file to correct this.")
     user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER, constants.SETTINGS_FILE)
 
     if not os.path.exists(user_settings_path):
