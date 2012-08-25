@@ -14,4 +14,3 @@ class AutoCopyrightEventListener(sublime_plugin.EventListener):
     Called just before the view is saved.
     '''
     view.run_command('update_copyright')
-    
