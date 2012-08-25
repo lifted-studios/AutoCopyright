@@ -4,6 +4,7 @@
 
 import constants
 import os
+import re
 import shutil
 import sublime
 import sublime_plugin
@@ -20,6 +21,14 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     '''
     self.settings = sublime.load_settings(constants.SETTINGS_FILE)
     self.view = view
+
+  def format_pattern(self, year, owner):
+    text = self.format_text("yyyear", "ooowner")
+    text = re.escape(text)
+    text = text.replace("yyyear", year)
+    pattern = text.replace("ooowner", owner)
+
+    return pattern
 
   def format_text(self, year, owner):
     '''
