@@ -1,5 +1,5 @@
 # 
-# Copyright (c) 2012 Lifted Studios.  All Rights Reserved.
+# Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
 # 
 
 LINE_ENDING_UNIX = 'Unix'
