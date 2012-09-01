@@ -4,6 +4,15 @@ A [Sublime Text 2](http://www.sublimetext.com/) plugin to automate adding the ap
 
 # Installation
 
+## Package Control
+
+The awesome Package Control package is a great way to easily install and manage Sublime Text 2 packages.
+
+1. Install [Package Control](http://wbond.net/sublime_packages/package_control)
+1. Press Control/Command+Shift+P to bring up the command palette
+1. Type PCIP (for Package Control: Install Package) and press Return
+1. Type AutoCopyright and press Return
+
 ## Manual installation
 
 Go to the "Packages" directory (`Preferences` / `Browse Packages...`).  Then clone this repository:
