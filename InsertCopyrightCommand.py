@@ -2,6 +2,14 @@
 # Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
 # 
 
+import os
+import sys
+
+# Required so that the comment module can be imported reliably on startup
+package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+default_package_dir = os.path.join(package_dir, 'Default')
+sys.path.append(default_package_dir)
+
 import comment
 import constants
 import datetime
