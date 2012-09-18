@@ -23,18 +23,12 @@ class UpdateCopyrightCommand(CopyrightCommand):
     except MissingOwnerException:
       self.handle_missing_owner_exception()
 
-  def __update_copyright(self, edit):
+  def __find_copyright(self):
     '''
-    Finds the copyright text and replaces it by updating the year if it has changed.
+    Finds the copyright text.
     '''
-    pattern = self.format_pattern("(\d+)(-\d+)?", self.get_owner())
-    region = self.view.find(pattern, 0)
-
-    if region:
-      oldYear = self.__get_old_year(region, pattern)
-      newYear = str(datetime.date.today().year)
-      if oldYear != newYear:
-        self.__replace_match(edit, region, oldYear, newYear)
+    pattern = self.__get_pattern()
+    return self.view.find(pattern, 0)
 
   def __get_old_year(self, region, pattern):
     '''
@@ -44,6 +38,26 @@ class UpdateCopyrightCommand(CopyrightCommand):
     match = re.match(pattern, text)
     return match.group(1)
 
+  def __get_pattern(self):
+    '''
+    Gets the pattern to use to find the copyright text.
+    '''
+    if self.pattern == None:
+      self.pattern = self.format_pattern("(\d+)(-\d+)?", self.get_owner())
+
+    return self.pattern
+
+  def __replace_copyright(self, region):
+    '''
+    Replaces the copyright text by updating the year to span from the original year to the current one.
+    '''
+    if region:
+      pattern = self.__get_pattern()
+      oldYear = self.__get_old_year(region, pattern)
+      newYear = str(datetime.date.today().year)
+      if oldYear != newYear:
+        self.__replace_match(edit, region, oldYear, newYear)
+
   def __replace_match(self, edit, region, oldYear, newYear):
     '''
     Replace the old copyright text with the new copyright text.
@@ -51,3 +65,10 @@ class UpdateCopyrightCommand(CopyrightCommand):
     owner = self.get_owner()
     message = self.format_text(oldYear + "-" + newYear, owner)
     self.view.replace(edit, region, message)
+
+  def __update_copyright(self, edit):
+    '''
+    Finds the copyright text and replaces it.
+    '''
+    region = self.__find_copyright()
+    self.__replace_copyright(region)
