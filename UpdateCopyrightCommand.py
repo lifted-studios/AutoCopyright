@@ -13,12 +13,22 @@ class UpdateCopyrightCommand(CopyrightCommand):
   '''
   Updates the copyright text, if present.
   '''
+
+  def __init__(self, view):
+    '''
+    Initializes the update copyright command.
+    '''
+    CopyrightCommand.__init__(self, view)
+    self.pattern = None
+    self.edit = None
+
   def run(self, edit):
     '''
     Executes the update command by searching for the copyright text and replacing it, if necessary.
     '''
     try:
-      self.__update_copyright(edit)
+      self.edit = edit
+      self.__update_copyright()
 
     except MissingOwnerException:
       self.handle_missing_owner_exception()
@@ -42,7 +52,7 @@ class UpdateCopyrightCommand(CopyrightCommand):
     '''
     Gets the pattern to use to find the copyright text.
     '''
-    if self.pattern == None:
+    if self.pattern is None:
       self.pattern = self.format_pattern("(\d+)(-\d+)?", self.get_owner())
 
     return self.pattern
@@ -56,17 +66,17 @@ class UpdateCopyrightCommand(CopyrightCommand):
       oldYear = self.__get_old_year(region, pattern)
       newYear = str(datetime.date.today().year)
       if oldYear != newYear:
-        self.__replace_match(edit, region, oldYear, newYear)
+        self.__replace_match(region, oldYear, newYear)
 
-  def __replace_match(self, edit, region, oldYear, newYear):
+  def __replace_match(self, region, oldYear, newYear):
     '''
     Replace the old copyright text with the new copyright text.
     '''
     owner = self.get_owner()
     message = self.format_text(oldYear + "-" + newYear, owner)
-    self.view.replace(edit, region, message)
+    self.view.replace(self.edit, region, message)
 
-  def __update_copyright(self, edit):
+  def __update_copyright(self):
     '''
     Finds the copyright text and replaces it.
     '''
