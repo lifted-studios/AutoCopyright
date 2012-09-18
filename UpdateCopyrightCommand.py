@@ -75,6 +75,7 @@ class UpdateCopyrightCommand(CopyrightCommand):
     owner = self.get_owner()
     message = self.format_text(oldYear + "-" + newYear, owner)
     self.view.replace(self.edit, region, message)
+    self.edit = None
 
   def __update_copyright(self):
     '''
