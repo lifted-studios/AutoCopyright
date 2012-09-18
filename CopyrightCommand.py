@@ -54,7 +54,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     '''
     Opens the settings file and suggests the user edit it with the proper owner name.
     '''
-    sublime.error_message("Auto Copyright: Default copyright owner not set.  Please edit the settings file to correct this.")
+    sublime.error_message(constants.PLUGIN_NAME + ': ' + constants.ERROR_MISSING_OWNER)
     user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER, constants.SETTINGS_FILE)
 
     if not os.path.exists(user_settings_path):
