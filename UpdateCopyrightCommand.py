@@ -38,7 +38,13 @@ class UpdateCopyrightCommand(CopyrightCommand):
     Finds the copyright text.
     '''
     pattern = self.__get_pattern()
-    return self.view.find(pattern, 0)
+
+    region = self.view.find(pattern, 0)
+    while region is not None:
+      if self.__is_in_comment(region):
+        return region
+
+    return None
 
   def __get_old_year(self, region, pattern):
     '''
@@ -57,11 +63,23 @@ class UpdateCopyrightCommand(CopyrightCommand):
 
     return self.pattern
 
+  def __is_in_comment(self, region):
+    '''
+    Determines if the entire region is encapsulated by a comment.
+    '''
+    point = region.begin()
+    if self.view.scope_name(point).find('comment') != -1:
+      comment_region = self.view.extract_scope(point)
+      if comment_region.begin() <= region.begin() and comment_region.end() >= region.end():
+        return True
+
+    return False
+
   def __replace_copyright(self, region):
     '''
     Replaces the copyright text by updating the year to span from the original year to the current one.
     '''
-    if region:
+    if region is not None:
       pattern = self.__get_pattern()
       oldYear = self.__get_old_year(region, pattern)
       newYear = str(datetime.date.today().year)
