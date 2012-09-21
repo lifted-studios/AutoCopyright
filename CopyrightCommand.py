@@ -13,17 +13,15 @@ import sublime_plugin
 from Exception import MissingOwnerException
 
 class CopyrightCommand(sublime_plugin.TextCommand):
-  '''
-  Common functionality for the Auto Copyright command classes.
-  '''
+  """Common functionality for the Auto Copyright command classes."""
+
   def __init__(self, view):
-    '''
-    Initializes the CopyrightCommand class.
-    '''
+    """Initializes the CopyrightCommand class."""
     self.settings = sublime.load_settings(constants.SETTINGS_FILE)
     self.view = view
 
   def format_pattern(self, year, owner):
+    """Creates a search pattern for the copyright text."""
     text = self.format_text("yyyear", "ooowner")
     text = re.escape(text)
     text = text.replace("yyyear", year)
@@ -32,9 +30,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     return pattern
 
   def format_text(self, year, owner):
-    '''
-    Formats the text of the copyright message.
-    '''
+    """Formats the text of the copyright message."""
     text = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
     text = text.replace("%y", str(year))
     text = text.replace("%o", owner)
@@ -42,9 +38,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     return text    
 
   def get_owner(self):
-    '''
-    Gets the copyright owner name that should be used in the copyright message.
-    '''
+    """Gets the copyright owner name that should be used in the copyright message."""
     owner = self.settings.get(constants.SETTING_OWNER)
     if not owner:
       raise MissingOwnerException()
@@ -52,9 +46,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     return owner
 
   def handle_missing_owner_exception(self):
-    '''
-    Opens the settings file and suggests the user edit it with the proper owner name.
-    '''
+    """Opens the settings file and suggests the user edit it with the proper owner name."""
     helper.error_message(constants.ERROR_MISSING_OWNER)
     user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER, constants.SETTINGS_FILE)
 

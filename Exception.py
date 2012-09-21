@@ -3,7 +3,5 @@
 # 
 
 class MissingOwnerException(Exception):
-  '''
-  Exception signifying that the copyright owner information has not been entered into the settings.
-  '''
+  """Exception signifying that the copyright owner information has not been entered into the settings."""
   pass

@@ -6,6 +6,11 @@ Just go to the [issues page](https://github.com/lifted-studios/AutoCopyright/iss
 
 ## Code
 
+### Code Style
+
+* Maintain the documentation along with the code!
+* Two spaces, no tabs.
+
 ### Instructions
 
 1. Go to the [project page](https://github.com/lifted-studios/AutoCopyright) on Github

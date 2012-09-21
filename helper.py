@@ -6,8 +6,6 @@ import constants
 import sublime
 
 def error_message(message):
-  '''
-  Displays an error message.
-  '''
+  """Displays an error message dialog to the user."""
   text = constants.PLUGIN_NAME + ': ' + message
   sublime.error_message(message)

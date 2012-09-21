@@ -19,19 +19,14 @@ from CopyrightCommand import CopyrightCommand
 from Exception import MissingOwnerException
 
 class InsertCopyrightCommand(CopyrightCommand):
-  '''
-  Inserts the copyright text at the top of the file.
-  '''
+  """Inserts the copyright text at the top of the file."""
+
   def description(self, *args):
-    '''
-    Describes the command.
-    '''
+    """Describes the command."""
     return "Inserts the copyright text at the location of the current selection."
 
   def run(self, edit):
-    '''
-    Executes the copyright command by inserting the appropriate copyright text at the current selection point.
-    '''
+    """Inserts the appropriate copyright text at the top of the file."""
     try:
       self.__insert_copyright(edit)
 
@@ -39,9 +34,7 @@ class InsertCopyrightCommand(CopyrightCommand):
       self.__handle_missing_owner_exception()
 
   def __build_block_comment(self, text):
-    '''
-    Builds a block comment and puts the given text into it.
-    '''
+    """Builds a block comment and puts the given text into it."""
     self.__get_block_comment_settings()
     endings = self.__get_line_endings()
 
@@ -55,9 +48,7 @@ class InsertCopyrightCommand(CopyrightCommand):
     return comment
 
   def __determine_location(self):
-    '''
-    Figures out the right location for the copyright text.
-    '''
+    """Figures out the right location for the copyright text."""
     region = self.view.full_line(0)
     line = self.view.substr(region)
     if re.match("^#!", line):
@@ -66,9 +57,7 @@ class InsertCopyrightCommand(CopyrightCommand):
       return 0
 
   def __get_block_comment_settings(self):
-    '''
-    Determines the appropriate block comment characters for the currently selected syntax.
-    '''
+    """Determines the appropriate block comment characters for the currently selected syntax."""
     lineComments, blockComments = comment.build_comment_data(self.view, 0)
     if len(blockComments) == 0:
       self.firstLine = lineComments[0][0]
@@ -80,11 +69,11 @@ class InsertCopyrightCommand(CopyrightCommand):
       self.lastLine = blockComments[0][1]
 
   def __get_line_endings(self):
-    '''
+    """
     Gets the appropriate line endings for the view.
 
     Unix and Mac OS X use the LF character.  Windows uses the CRLF pair.  Old versions of Mac OS used just the CR character.
-    '''
+    """
     if self.view.line_endings() == constants.LINE_ENDING_UNIX:
       return u'\u000a'
     elif self.view.line_endings() == constants.LINE_ENDING_WINDOWS:
@@ -93,9 +82,7 @@ class InsertCopyrightCommand(CopyrightCommand):
       return u'\u000d'
 
   def __insert_copyright(self, edit):
-    '''
-    Inserts the copyright message into the view.
-    '''
+    """Inserts the copyright message into the view."""
     year = datetime.date.today().year
     owner = self.get_owner()
     location = self.__determine_location()

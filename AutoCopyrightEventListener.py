@@ -6,11 +6,8 @@ import sublime
 import sublime_plugin
 
 class AutoCopyrightEventListener(sublime_plugin.EventListener):
-  '''
-  Listener for application events.
-  '''
+  """Overrides the on_pre_save hook to allow for updating the copyright in a file automatically."""
+
   def on_pre_save(self, view):
-    '''
-    Called just before the view is saved.
-    '''
+    """Called just before the view is saved."""
     view.run_command('update_copyright')
