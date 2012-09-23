@@ -10,6 +10,9 @@ Just go to the [issues page](https://github.com/lifted-studios/AutoCopyright/iss
 
 * Maintain the documentation along with the code!
 * Two spaces, no tabs.
+* Function names use `snake_case`
+* Class names use `PascalCase`
+* Place string constants in `constants.py`
 
 ### Instructions
 
