@@ -33,7 +33,7 @@ Two functions will show up in the Command Palette under "Auto Copyright".  Addit
 
 ## Insert Copyright
 
-Adds the copyright text to the beginning of the file.  It will add itself after a shebang line, if any.
+Adds the copyright text to the beginning of the file.  It will add itself after a [shebang line](http://en.wikipedia.org/wiki/Shebang), if any.
 
 ## Update Copyright
 
