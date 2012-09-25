@@ -23,9 +23,9 @@ Go to the "Packages" directory (`Preferences` / `Browse Packages...`).  Then clo
 
 Edit the settings file (it should open automatically the first time you use an Auto Copyright command):
 
-*   `"owner": ""`
+*   `"owner": [""]`
 
-    You need to enter the text you want to show up as the copyright owner.
+    You need to enter the text you want to show up as the primary copyright owner.  If you have multiple copyright owners, then enter them as an array.
 
 # Usage
 
@@ -33,11 +33,11 @@ Two functions will show up in the Command Palette under "Auto Copyright".  Addit
 
 ## Insert Copyright
 
-Adds the copyright text to the beginning of the file.  It will add itself after a [shebang line](http://en.wikipedia.org/wiki/Shebang), if any.
+Adds the copyright text to the beginning of the file.  It will add itself after a [shebang line](http://en.wikipedia.org/wiki/Shebang), if any.  When the command is triggered, if there are multiple copyright owners configured in settings, it will pop up a list and ask which one to use.
 
 ## Update Copyright
 
-Updates the copyright text already present in the file, but only if the text matches, including the copyright owner name except for the year.  It will update the copyright year to include all years between the original year and this one.
+Updates the copyright text already present in the file, but only if the text matches, including the copyright owner name except for the year.  It will update the copyright year to include all years between the original year and this one.  The command will update the copyright text for any of the configured owner texts.
 
 # Information
 
