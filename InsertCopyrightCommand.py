@@ -14,6 +14,7 @@ import comment
 import constants
 import datetime
 import re
+import sublime
 
 from CopyrightCommand import CopyrightCommand
 from Exception import MissingOwnerException
@@ -25,13 +26,22 @@ class InsertCopyrightCommand(CopyrightCommand):
     """Describes the command."""
     return "Inserts the copyright text at the location of the current selection."
 
+  def owner_selected(self):
+    """Finishes inserting the copyright text after the owner is selected."""
+    year = datetime.date.today().year
+    location = self.__determine_location()
+    text = self.format_text(year, self.selected_owner)
+    copyrightText = self.__build_block_comment(text)
+
+    self.view.insert(self.edit, location, copyrightText)
+
   def run(self, edit):
     """Inserts the appropriate copyright text at the top of the file."""
     try:
       self.__insert_copyright(edit)
 
     except MissingOwnerException:
-      self.__handle_missing_owner_exception()
+      self.handle_missing_owner_exception()
 
   def __build_block_comment(self, text):
     """Builds a block comment and puts the given text into it."""
@@ -81,12 +91,25 @@ class InsertCopyrightCommand(CopyrightCommand):
     else:
       return u'\u000d'
 
+  def __get_owner(self):
+    """Gets the copyright owner name that should be used in the copyright message."""
+    owners = self.settings.get(constants.SETTING_OWNERS)
+
+    if not owners or len(owners) == 0:
+      raise MissingOwnerException()
+
+    if type(owners).__name__ == "unicode":
+      self.owner = owners
+      self.owner_selected()
+
+    def on_quick_panel_done(index): 
+      self.selected_owner = owners[index]
+      self.owner_selected()
+
+    sublime.active_window().show_quick_panel(owners, on_quick_panel_done)
+
   def __insert_copyright(self, edit):
     """Inserts the copyright message into the view."""
-    year = datetime.date.today().year
-    owner = self.get_owner()
-    location = self.__determine_location()
-    text = self.format_text(year, owner)
-    copyrightText = self.__build_block_comment(text)
+    self.edit = edit
+    self.__get_owner()
 
-    self.view.insert(edit, location, copyrightText)

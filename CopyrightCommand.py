@@ -19,6 +19,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     """Initializes the CopyrightCommand class."""
     self.settings = sublime.load_settings(constants.SETTINGS_FILE)
     self.view = view
+    self.selected_owner = None
 
   def format_pattern(self, year, owner):
     """Creates a search pattern for the copyright text."""
@@ -36,14 +37,6 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     text = text.replace("%o", owner)
 
     return text    
-
-  def get_owner(self):
-    """Gets the copyright owner name that should be used in the copyright message."""
-    owner = self.settings.get(constants.SETTING_OWNER)
-    if not owner:
-      raise MissingOwnerException()
-
-    return owner
 
   def handle_missing_owner_exception(self):
     """Opens the settings file and suggests the user edit it with the proper owner name."""

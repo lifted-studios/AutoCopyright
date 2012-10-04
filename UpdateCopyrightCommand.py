@@ -15,7 +15,8 @@ class UpdateCopyrightCommand(CopyrightCommand):
   def __init__(self, view):
     """Initializes the update copyright command."""
     CopyrightCommand.__init__(self, view)
-    self.pattern = None
+    self.patterns = None
+    self.matched_pattern = None
     self.edit = None
 
   def run(self, edit):
@@ -28,13 +29,15 @@ class UpdateCopyrightCommand(CopyrightCommand):
       self.handle_missing_owner_exception()
 
   def __find_copyright(self):
-    """Finds the copyright text."""
-    pattern = self.__get_pattern()
+    """Finds the first matching copyright text."""
+    patterns = self.__get_patterns()
 
-    region = self.view.find(pattern, 0)
-    while region is not None:
-      if self.__is_in_comment(region):
-        return region
+    for pattern in patterns:
+      region = self.view.find(pattern, 0)
+      while region is not None:
+        if self.__is_in_comment(region):
+          self.matched_pattern = pattern
+          return region
 
     return None
 
@@ -44,12 +47,28 @@ class UpdateCopyrightCommand(CopyrightCommand):
     match = re.match(pattern, text)
     return match.group(1)
 
-  def __get_pattern(self):
-    """Gets the pattern to use to find the copyright text."""
-    if self.pattern is None:
-      self.pattern = self.format_pattern("(\d+)(-\d+)?", self.get_owner())
+  def __get_owners(self):
+    """Gets the list of owners from the settings."""
+    owners = self.settings.get(constants.SETTING_OWNERS)
 
-    return self.pattern
+    if not owners or len(owners) == 0:
+      raise MissingOwnerException()
+
+    if type(owners).__name__ == "unicode":
+      return [owners]
+
+    return owners
+
+  def __get_patterns(self):
+    """Gets the patterns to use to find the copyright text."""
+    if self.patterns is None:
+      owners = self.__get_owners()
+
+      self.patterns = {}
+      for owner in owners:
+        self.patterns[self.format_pattern("(\d+)(-\d+)?", owner)] = owner
+
+    return self.patterns
 
   def __is_in_comment(self, region):
     """Determines if the entire region is encapsulated by a comment."""
@@ -64,15 +83,17 @@ class UpdateCopyrightCommand(CopyrightCommand):
   def __replace_copyright(self, region):
     """Replaces the copyright text by updating the year to span from the original year to the current one."""
     if region is not None:
-      pattern = self.__get_pattern()
+      pattern = self.matched_pattern
       oldYear = self.__get_old_year(region, pattern)
       newYear = str(datetime.date.today().year)
       if oldYear != newYear:
         self.__replace_match(region, oldYear, newYear)
 
+      self.matched_pattern = None
+
   def __replace_match(self, region, oldYear, newYear):
     """Replace the old copyright text with the new copyright text."""
-    owner = self.get_owner()
+    owner = self.patterns[self.matched_pattern]
     message = self.format_text(oldYear + "-" + newYear, owner)
     self.view.replace(self.edit, region, message)
     self.edit = None
