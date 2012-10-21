@@ -20,13 +20,31 @@ from CopyrightCommand import CopyrightCommand
 class TestCopyrightCommand(unittest.TestCase):
   """Tests for the CopyrightCommand class."""
 
-  def test_format_text_happy_path(self):
+  def setUp(self):
     sublime.settings.set(constants.SETTING_COPYRIGHT_MESSAGE, "%y %o")
-    command = CopyrightCommand(None)
+    self.command = CopyrightCommand(None)
 
-    text = command.format_text(1971, "foo")
+  def test_format_text_happy_path(self):
+    text = self.command.format_text(1971, "foo")
 
     self.assertEqual("1971 foo", text)
+
+  def test_format_text_will_accept_string_for_year(self):
+    text = self.command.format_text("1971", "foo")
+
+    self.assertEqual("1971 foo", text)
+
+  def test_format_text_raises_on_missing_year(self):
+    with self.assertRaises(TypeError):
+      self.command.format_text(None, "foo")
+
+  def test_format_text_raises_on_missing_owner(self):
+    with self.assertRaises(TypeError):
+      self.command.format_text(1971, None)
+
+  def test_format_text_raises_on_empty_owner(self):
+    with self.assertRaises(TypeError): 
+      self.command.format_text(1971, "")
 
 if __name__ == "__main__":
   unittest.main()

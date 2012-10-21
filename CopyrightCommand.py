@@ -32,6 +32,12 @@ class CopyrightCommand(sublime_plugin.TextCommand):
 
   def format_text(self, year, owner):
     """Formats the text of the copyright message."""
+    if year is None:
+      raise TypeError("year cannot be None.")
+
+    if len(owner) == 0:
+      raise TypeError("owner cannot be empty.")
+      
     text = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
     text = text.replace("%y", str(year))
     text = text.replace("%o", owner)
