@@ -6,6 +6,10 @@ Just go to the [issues page](https://github.com/lifted-studios/AutoCopyright/iss
 
 ## Code
 
+### Testing
+
+We're using the [nose test runner](https://nose.readthedocs.org/en/latest/) with the standard `unittest`-based tests.  New pull requests must have passing tests.
+
 ### Code Style
 
 * Maintain the documentation along with the code!
