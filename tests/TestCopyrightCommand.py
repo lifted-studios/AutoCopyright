@@ -46,5 +46,18 @@ class TestCopyrightCommand(unittest.TestCase):
     with self.assertRaises(TypeError): 
       self.command.format_text(1971, "")
 
+  def test_format_pattern_happy_path(self):
+    text = self.command.format_pattern("(\d+)(-\d+)?", "foo")
+
+    self.assertEqual("(\d+)(-\d+)?\\ foo", text)
+
+  def test_format_pattern_raises_on_missing_year(self):
+    with self.assertRaises(TypeError):
+      self.command.format_pattern(None, "foo")
+
+  def test_format_pattern_raises_on_missing_owner(self):
+    with self.assertRaises(TypeError):
+      self.command.format_pattern("(\d+)(-\d+)?", None)
+
 if __name__ == "__main__":
   unittest.main()
