@@ -21,18 +21,18 @@ class TestCopyrightCommand(unittest.TestCase):
   """Tests for the CopyrightCommand class."""
 
   def setUp(self):
-    sublime.settings.set(constants.SETTING_COPYRIGHT_MESSAGE, "%y %o")
+    sublime.settings.set(constants.SETTING_COPYRIGHT_MESSAGE, "|%y|%o|")
     self.command = CopyrightCommand(None)
 
   def test_format_text_happy_path(self):
     text = self.command.format_text(1971, "foo")
 
-    self.assertEqual("1971 foo", text)
+    self.assertEqual("|1971|foo|", text)
 
   def test_format_text_will_accept_string_for_year(self):
     text = self.command.format_text("1971", "foo")
 
-    self.assertEqual("1971 foo", text)
+    self.assertEqual("|1971|foo|", text)
 
   def test_format_text_raises_on_missing_year(self):
     with self.assertRaises(TypeError):
@@ -49,7 +49,7 @@ class TestCopyrightCommand(unittest.TestCase):
   def test_format_pattern_happy_path(self):
     text = self.command.format_pattern("(\d+)(-\d+)?", "foo")
 
-    self.assertEqual("(\d+)(-\d+)?\\ foo", text)
+    self.assertEqual("\\|(\d+)(-\d+)?\\|foo\\|", text)
 
   def test_format_pattern_raises_on_missing_year(self):
     with self.assertRaises(TypeError):
