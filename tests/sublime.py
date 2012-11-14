@@ -29,6 +29,9 @@ class MockView:
     self.text = text
     self.insertCalled = True
 
+  def line_endings(self):
+    return 'Unix'
+
   def substr(self, region):
     return ""
 

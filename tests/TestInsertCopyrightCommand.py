@@ -12,6 +12,7 @@ sys.path.append(source_dir)
 
 import unittest
 
+import comment
 import constants
 import datetime
 import sublime
@@ -28,10 +29,14 @@ class TestInsertCopyrightCommand(unittest.TestCase):
     self.command = InsertCopyrightCommand(self.view)
 
   def test_insert_single_owner_happy_path(self):
+    comment.set_comment_data([["# "]], [])
     sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
     self.command.run(self.edit)
 
     self.assertTrue(self.view.insertCalled)
+    self.assertIs(self.edit, self.view.edit)
+    self.assertEqual(0, self.view.location)
+    self.assertEqual("# \n# |2012|Lifted Studios|\n# \n", self.view.text)
 
 if __name__ == "__main__":
   unittest.main()
