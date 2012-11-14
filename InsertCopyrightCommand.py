@@ -99,7 +99,7 @@ class InsertCopyrightCommand(CopyrightCommand):
       raise MissingOwnerException()
 
     if type(owners).__name__ == "unicode":
-      self.owner = owners
+      self.selected_owner = owners
       self.owner_selected()
 
     def on_quick_panel_done(index): 
