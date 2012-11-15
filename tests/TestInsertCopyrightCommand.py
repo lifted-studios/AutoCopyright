@@ -28,7 +28,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
     self.edit = sublime.MockEdit()
     self.command = InsertCopyrightCommand(self.view)
 
-  def test_insert_single_owner_into_empty_file_with_line_comments_happy_path(self):
+  def test_insert_single_owner_with_line_comments_happy_path(self):
     comment.set_comment_data([["# "]], [])
     sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
     self.command.run(self.edit)
@@ -37,6 +37,16 @@ class TestInsertCopyrightCommand(unittest.TestCase):
     self.assertIs(self.edit, self.view.edit)
     self.assertEqual(0, self.view.location)
     self.assertEqual("# \n# |2012|Lifted Studios|\n# \n", self.view.text)
+
+  def test_insert_single_owner_with_block_comments_happy_path(self):
+    comment.set_comment_data([["// "]], [["/*", "*/"]])
+    sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
+    self.command.run(self.edit)
+
+    self.assertTrue(self.view.insertCalled)
+    self.assertIs(self.edit, self.view.edit)
+    self.assertEqual(0, self.view.location)
+    self.assertEqual("/*\n|2012|Lifted Studios|\n*/\n", self.view.text)
 
 if __name__ == "__main__":
   unittest.main()
