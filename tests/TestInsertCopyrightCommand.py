@@ -20,6 +20,12 @@ import sublime
 
 from InsertCopyrightCommand import InsertCopyrightCommand
 
+def create_fake_packages_path():
+  """Creates a fake packages path and settings file."""
+  package_path = os.path.join(sublime.packages_path(), constants.PLUGIN_NAME)
+  os.makedirs(package_path)
+  shutil.copy(os.path.join(source_dir, constants.SETTINGS_FILE), package_path)
+
 def remove_dir(path):
   """Completely removes the directory and everything in it."""
   for root, dirs, files in os.walk(path, False):
@@ -30,12 +36,6 @@ def remove_dir(path):
       os.rmdir(os.path.join(root, dirname))
 
   os.rmdir(path)
-
-def create_fake_packages_path():
-  """Creates a fake packages path and settings file."""
-  package_path = os.path.join(sublime.packages_path(), constants.PLUGIN_NAME)
-  os.makedirs(package_path)
-  shutil.copy(os.path.join(source_dir, constants.SETTINGS_FILE), package_path)
 
 class TestInsertCopyrightCommand(unittest.TestCase):
   """Tests for the InsertCopyrightCommand class."""
