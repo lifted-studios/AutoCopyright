@@ -47,10 +47,14 @@ class CopyrightCommand(sublime_plugin.TextCommand):
   def handle_missing_owner_exception(self):
     """Opens the settings file and suggests the user edit it with the proper owner name."""
     helper.error_message(constants.ERROR_MISSING_OWNER)
-    user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER, constants.SETTINGS_FILE)
+    user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER, constants.PLUGIN_NAME)
+    user_settings_filename = os.path.join(user_settings_path, constants.SETTINGS_FILE)
 
     if not os.path.exists(user_settings_path):
-      default_settings_path = os.path.join(sublime.packages_path(), constants.PLUGIN_NAME, constants.SETTINGS_FILE)
-      shutil.copy(default_settings_path, user_settings_path)
+      os.makedirs(user_settings_path)
 
-    sublime.active_window().open_file(user_settings_path)
+    if not os.path.exists(user_settings_filename):
+      default_settings_filename = os.path.join(sublime.packages_path(), constants.PLUGIN_NAME, constants.SETTINGS_FILE)
+      shutil.copy(default_settings_filename, user_settings_filename)
+
+    sublime.active_window().open_file(user_settings_filename)
