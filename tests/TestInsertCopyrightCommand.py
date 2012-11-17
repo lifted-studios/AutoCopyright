@@ -15,10 +15,13 @@ import unittest
 import comment
 import constants
 import datetime
+import random
 import shutil
 import sublime
 
 from InsertCopyrightCommand import InsertCopyrightCommand
+
+multiple_owners = [u"Zero", u"One", u"Two", u"Three", u"Four"]
 
 def create_fake_packages_path():
   """Creates a fake packages path and settings file."""
@@ -84,6 +87,45 @@ class TestInsertCopyrightCommand(unittest.TestCase):
                                constants.SETTINGS_FILE)
     self.assertEqual(user_settings_filename, sublime.active_window().opened_file)
     self.assertTrue(os.path.exists(user_settings_filename))
+
+  def test_empty_owners(self):
+    sublime.settings.set(constants.SETTING_OWNERS, [])
+    self.command.run(self.edit)
+
+    user_settings_filename = os.path.join(
+                               sublime.packages_path(), 
+                               constants.SETTINGS_PATH_USER, 
+                               constants.PLUGIN_NAME, 
+                               constants.SETTINGS_FILE)
+    self.assertEqual(user_settings_filename, sublime.active_window().opened_file)
+    self.assertTrue(os.path.exists(user_settings_filename))
+
+  def test_insert_multiple_owners_with_line_comments_happy_path(self):
+    sublime.settings.set(constants.SETTING_OWNERS, multiple_owners)
+    self.command.run(self.edit)
+
+    self.assertEqual(multiple_owners, sublime.active_window().quick_panel_items)
+    index = random.randint(0, len(multiple_owners))
+    sublime.active_window().quick_panel_func(index)
+
+    self.assertTrue(self.view.insertCalled)
+    self.assertIs(self.edit, self.view.edit)
+    self.assertEqual(0, self.view.location)
+    self.assertEqual("# \n# |{0}|{1}|\n# \n".format(self.year, multiple_owners[index]), self.view.text)
+
+  def test_insert_multiple_owners_with_block_comments_happy_path(self):
+    comment.set_comment_data([["// "]], [["/*", "*/"]])
+    sublime.settings.set(constants.SETTING_OWNERS, multiple_owners)
+    self.command.run(self.edit)
+
+    self.assertEqual(multiple_owners, sublime.active_window().quick_panel_items)
+    index = random.randint(0, len(multiple_owners))
+    sublime.active_window().quick_panel_func(index)
+
+    self.assertTrue(self.view.insertCalled)
+    self.assertIs(self.edit, self.view.edit)
+    self.assertEqual(0, self.view.location)
+    self.assertEqual("/*\n|{0}|{1}|\n*/\n".format(self.year, multiple_owners[index]), self.view.text)
 
 if __name__ == "__main__":
   unittest.main()

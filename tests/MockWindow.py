@@ -9,4 +9,5 @@ class MockWindow:
     self.opened_file = path
 
   def show_quick_panel(self, items, func):
-    pass
+    self.quick_panel_items = items
+    self.quick_panel_func = func
