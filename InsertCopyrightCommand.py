@@ -46,7 +46,7 @@ class InsertCopyrightCommand(CopyrightCommand):
 
     def __build_block_comment(self, text):
         """Builds a block comment and puts the given text into it."""
-        self.__get_block_comment_settings()
+        self.get_block_comment_settings()
         endings = self.__get_line_endings()
 
         def make_comment(line):
@@ -71,7 +71,7 @@ class InsertCopyrightCommand(CopyrightCommand):
         else:
             return 0
 
-    def __get_block_comment_settings(self):
+    def get_block_comment_settings(self):
         """Determines the appropriate block comment characters for the currently selected syntax."""
         lineComments, blockComments = comment.build_comment_data(self.view, 0)
         if len(blockComments) == 0:

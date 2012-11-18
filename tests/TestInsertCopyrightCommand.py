@@ -131,5 +131,12 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual(0, self.view.location)
         self.assertEqual("/*\n|{0}|{1}|\n*/\n".format(self.year, multiple_owners[index]), self.view.text)
 
+    def test_get_block_comment_settings_line_comments(self):
+        self.command.get_block_comment_settings()
+
+        self.assertEqual(u"# ", self.command.firstLine)
+        self.assertEqual(u"# ", self.command.middleLine)
+        self.assertEqual(u"# ", self.command.lastLine)
+
 if __name__ == "__main__":
     unittest.main()
