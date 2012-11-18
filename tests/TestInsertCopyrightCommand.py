@@ -146,5 +146,13 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual("", self.command.middleLine)
         self.assertEqual("*/", self.command.lastLine)
 
+    def test_get_block_comment_settings_no_comment_info(self):
+        comment.set_comment_data([], [])
+        self.command.get_block_comment_settings()
+
+        self.assertEqual("# ", self.command.firstLine)
+        self.assertEqual("# ", self.command.middleLine)
+        self.assertEqual("# ", self.command.lastLine)
+
 if __name__ == "__main__":
     unittest.main()

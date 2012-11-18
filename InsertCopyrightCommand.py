@@ -74,7 +74,12 @@ class InsertCopyrightCommand(CopyrightCommand):
     def get_block_comment_settings(self):
         """Determines the appropriate block comment characters for the currently selected syntax."""
         lineComments, blockComments = comment.build_comment_data(self.view, 0)
-        if len(blockComments) == 0:
+
+        if len(lineComments) == 0 and len(blockComments) == 0:
+            self.firstLine = '# '
+            self.middleLine = '# '
+            self.lastLine = '# '
+        elif len(blockComments) == 0 and len(lineComments) > 0:
             self.firstLine = lineComments[0][0]
             self.middleLine = lineComments[0][0]
             self.lastLine = lineComments[0][0]
