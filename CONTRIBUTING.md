@@ -12,11 +12,12 @@ We're using the [nose test runner](https://nose.readthedocs.org/en/latest/) with
 
 ### Code Style
 
+* Use [Sublime Lint](https://github.com/lunixbochs/sublimelint) and fix all warnings.
 * Maintain the documentation along with the code!
-* Two spaces, no tabs.
-* Function names use `snake_case`
-* Class names use `PascalCase`
-* Place string constants in `constants.py`
+* Four spaces, no tabs.
+* Function names use `snake_case`.
+* Class names use `PascalCase`.
+* Place string constants in `constants.py`.
 
 ### Instructions
 
