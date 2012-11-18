@@ -22,9 +22,6 @@ import sublime
 from InsertCopyrightCommand import InsertCopyrightCommand
 
 multiple_owners = [u"Zero", u"One", u"Two", u"Three", u"Four"]
-block_comments = ([(u'// ', False), (u'//', False)], [(u'/*', u'*/', True), (u'/*', u'*/', True)])
-line_comments = ([(u'# ', False), (u'#', False)], [])
-no_comments = ([], [])
 
 
 def create_fake_packages_path():
@@ -56,7 +53,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.edit = sublime.MockEdit()
         self.command = InsertCopyrightCommand(self.view)
         self.year = datetime.date.today().year
-        comment.set_comment_data(line_comments)
+        comment.set_line_comments()
 
         create_fake_packages_path()
 
@@ -74,7 +71,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual("# \n# |{0}|Lifted Studios|\n# \n".format(self.year), self.view.text)
 
     def test_insert_single_owner_with_block_comments_happy_path(self):
-        comment.set_comment_data(block_comments)
+        comment.set_block_comments()
         sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
         self.command.run(self.edit)
 
@@ -121,7 +118,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual("# \n# |{0}|{1}|\n# \n".format(self.year, multiple_owners[index]), self.view.text)
 
     def test_insert_multiple_owners_with_block_comments_happy_path(self):
-        comment.set_comment_data(block_comments)
+        comment.set_block_comments()
         sublime.settings.set(constants.SETTING_OWNERS, multiple_owners)
         self.command.run(self.edit)
 
@@ -142,7 +139,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual(u"# ", self.command.lastLine)
 
     def test_get_block_comment_settings_block_comments(self):
-        comment.set_comment_data(block_comments)
+        comment.set_block_comments()
         self.command.get_block_comment_settings()
 
         self.assertEqual("/*", self.command.firstLine)
@@ -150,7 +147,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual("*/", self.command.lastLine)
 
     def test_get_block_comment_settings_no_comment_info(self):
-        comment.set_comment_data(no_comments)
+        comment.set_no_comments()
         self.command.get_block_comment_settings()
 
         self.assertEqual("# ", self.command.firstLine)
