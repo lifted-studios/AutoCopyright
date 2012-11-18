@@ -1,6 +1,6 @@
-# 
+#
 # Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
-# 
+#
 
 import constants
 import datetime
@@ -9,96 +9,97 @@ import re
 from CopyrightCommand import CopyrightCommand
 from Exception import MissingOwnerException
 
+
 class UpdateCopyrightCommand(CopyrightCommand):
-  """Updates the copyright text, if present."""
+    """Updates the copyright text, if present."""
 
-  def __init__(self, view):
-    """Initializes the update copyright command."""
-    CopyrightCommand.__init__(self, view)
-    self.patterns = None
-    self.matched_pattern = None
-    self.edit = None
+    def __init__(self, view):
+        """Initializes the update copyright command."""
+        CopyrightCommand.__init__(self, view)
+        self.patterns = None
+        self.matched_pattern = None
+        self.edit = None
 
-  def run(self, edit):
-    """Searches for the copyright text and replaces it, if necessary."""
-    try:
-      self.edit = edit
-      self.__update_copyright()
+    def run(self, edit):
+        """Searches for the copyright text and replaces it, if necessary."""
+        try:
+            self.edit = edit
+            self.__update_copyright()
 
-    except MissingOwnerException:
-      self.handle_missing_owner_exception()
+        except MissingOwnerException:
+            self.handle_missing_owner_exception()
 
-  def __find_copyright(self):
-    """Finds the first matching copyright text."""
-    patterns = self.__get_patterns()
+    def __find_copyright(self):
+        """Finds the first matching copyright text."""
+        patterns = self.__get_patterns()
 
-    for pattern in patterns:
-      region = self.view.find(pattern, 0)
-      while region is not None:
-        if self.__is_in_comment(region):
-          self.matched_pattern = pattern
-          return region
+        for pattern in patterns:
+            region = self.view.find(pattern, 0)
+        while region is not None:
+            if self.__is_in_comment(region):
+                self.matched_pattern = pattern
+                return region
 
-    return None
+        return None
 
-  def __get_old_year(self, region, pattern):
-    """Extract the old year from the pre-existing copyright text."""
-    text = self.view.substr(region)
-    match = re.match(pattern, text)
-    return match.group(1)
+    def __get_old_year(self, region, pattern):
+        """Extract the old year from the pre-existing copyright text."""
+        text = self.view.substr(region)
+        match = re.match(pattern, text)
+        return match.group(1)
 
-  def __get_owners(self):
-    """Gets the list of owners from the settings."""
-    owners = self.settings.get(constants.SETTING_OWNERS)
+    def __get_owners(self):
+        """Gets the list of owners from the settings."""
+        owners = self.settings.get(constants.SETTING_OWNERS)
 
-    if not owners or len(owners) == 0:
-      raise MissingOwnerException()
+        if not owners or len(owners) == 0:
+            raise MissingOwnerException()
 
-    if type(owners).__name__ == "unicode":
-      return [owners]
+        if type(owners).__name__ == "unicode":
+            return [owners]
 
-    return owners
+        return owners
 
-  def __get_patterns(self):
-    """Gets the patterns to use to find the copyright text."""
-    if self.patterns is None:
-      owners = self.__get_owners()
+    def __get_patterns(self):
+        """Gets the patterns to use to find the copyright text."""
+        if self.patterns is None:
+            owners = self.__get_owners()
 
-      self.patterns = {}
-      for owner in owners:
-        self.patterns[self.format_pattern("(\d+)(-\d+)?", owner)] = owner
+        self.patterns = {}
+        for owner in owners:
+            self.patterns[self.format_pattern("(\d+)(-\d+)?", owner)] = owner
 
-    return self.patterns
+        return self.patterns
 
-  def __is_in_comment(self, region):
-    """Determines if the entire region is encapsulated by a comment."""
-    point = region.begin()
-    if self.view.scope_name(point).find('comment') != -1:
-      comment_region = self.view.extract_scope(point)
-      if comment_region.begin() <= region.begin() and comment_region.end() >= region.end():
-        return True
+    def __is_in_comment(self, region):
+        """Determines if the entire region is encapsulated by a comment."""
+        point = region.begin()
+        if self.view.scope_name(point).find('comment') != -1:
+            comment_region = self.view.extract_scope(point)
+            if comment_region.begin() <= region.begin() and comment_region.end() >= region.end():
+                return True
 
-    return False
+        return False
 
-  def __replace_copyright(self, region):
-    """Replaces the copyright text by updating the year to span from the original year to the current one."""
-    if region is not None:
-      pattern = self.matched_pattern
-      oldYear = self.__get_old_year(region, pattern)
-      newYear = str(datetime.date.today().year)
-      if oldYear != newYear:
-        self.__replace_match(region, oldYear, newYear)
+    def __replace_copyright(self, region):
+        """Replaces the copyright text by updating the year to span from the original year to the current one."""
+        if region is not None:
+            pattern = self.matched_pattern
+            oldYear = self.__get_old_year(region, pattern)
+            newYear = str(datetime.date.today().year)
+            if oldYear != newYear:
+                self.__replace_match(region, oldYear, newYear)
 
-      self.matched_pattern = None
+        self.matched_pattern = None
 
-  def __replace_match(self, region, oldYear, newYear):
-    """Replace the old copyright text with the new copyright text."""
-    owner = self.patterns[self.matched_pattern]
-    message = self.format_text(oldYear + "-" + newYear, owner)
-    self.view.replace(self.edit, region, message)
-    self.edit = None
+    def __replace_match(self, region, oldYear, newYear):
+        """Replace the old copyright text with the new copyright text."""
+        owner = self.patterns[self.matched_pattern]
+        message = self.format_text(oldYear + "-" + newYear, owner)
+        self.view.replace(self.edit, region, message)
+        self.edit = None
 
-  def __update_copyright(self):
-    """Finds the copyright text and replaces it."""
-    region = self.__find_copyright()
-    self.__replace_copyright(region)
+    def __update_copyright(self):
+        """Finds the copyright text and replaces it."""
+        region = self.__find_copyright()
+        self.__replace_copyright(region)

@@ -5,7 +5,9 @@
 import os
 import tempfile
 
+from MockEdit import MockEdit
 from MockSettings import MockSettings
+from MockView import MockView
 from MockWindow import MockWindow
 
 settings = MockSettings()

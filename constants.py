@@ -1,6 +1,6 @@
-# 
+#
 # Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
-# 
+#
 
 ERROR_MISSING_OWNER = 'Default copyright owner not set.  Please edit the settings file to correct this.'
 LINE_ENDING_UNIX = 'Unix'

@@ -38,8 +38,8 @@ def remove_dir(path):
         for name in files:
             os.remove(os.path.join(root, name))
 
-    for dirname in dirs:
-        os.rmdir(os.path.join(root, dirname))
+        for dirname in dirs:
+            os.rmdir(os.path.join(root, dirname))
 
     os.rmdir(path)
 
@@ -109,7 +109,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.command.run(self.edit)
 
         self.assertEqual(multiple_owners, sublime.active_window().quick_panel_items)
-        index = random.randint(0, len(multiple_owners))
+        index = random.randint(1, len(multiple_owners))
         sublime.active_window().quick_panel_func(index)
 
         self.assertTrue(self.view.insertCalled)
@@ -123,7 +123,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.command.run(self.edit)
 
         self.assertEqual(multiple_owners, sublime.active_window().quick_panel_items)
-        index = random.randint(0, len(multiple_owners))
+        index = random.randint(0, (len(multiple_owners) - 1))
         sublime.active_window().quick_panel_func(index)
 
         self.assertTrue(self.view.insertCalled)
