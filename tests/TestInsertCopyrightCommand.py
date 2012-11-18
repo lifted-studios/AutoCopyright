@@ -109,7 +109,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.command.run(self.edit)
 
         self.assertEqual(multiple_owners, sublime.active_window().quick_panel_items)
-        index = random.randint(1, len(multiple_owners))
+        index = random.randint(0, len(multiple_owners) - 1)
         sublime.active_window().quick_panel_func(index)
 
         self.assertTrue(self.view.insertCalled)
@@ -137,6 +137,14 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual(u"# ", self.command.firstLine)
         self.assertEqual(u"# ", self.command.middleLine)
         self.assertEqual(u"# ", self.command.lastLine)
+
+    def test_get_block_comment_settings_block_comments(self):
+        comment.set_comment_data([["// "]], [["/*", "*/"]])
+        self.command.get_block_comment_settings()
+
+        self.assertEqual("/*", self.command.firstLine)
+        self.assertEqual("", self.command.middleLine)
+        self.assertEqual("*/", self.command.lastLine)
 
 if __name__ == "__main__":
     unittest.main()
