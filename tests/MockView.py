@@ -7,9 +7,11 @@ class MockView:
     """Mock View class for testing."""
     def __init__(self):
         self.insertCalled = False
+        self.full_line_region = None
+        self.substr_string = None
 
     def full_line(self, pos):
-        return [0, 0]
+        return self.full_line_region or (0, 0)
 
     def insert(self, edit, location, text):
         self.edit = edit
@@ -18,7 +20,7 @@ class MockView:
         self.insertCalled = True
 
     def line_endings(self):
-        return 'Unix'
+        return u'Unix'
 
     def substr(self, region):
-        return ""
+        return self.substr_string or u""

@@ -6,6 +6,7 @@ import os
 import tempfile
 
 from MockEdit import MockEdit
+from MockRegion import MockRegion
 from MockSettings import MockSettings
 from MockView import MockView
 from MockWindow import MockWindow

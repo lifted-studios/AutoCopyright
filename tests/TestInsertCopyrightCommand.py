@@ -154,5 +154,24 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual("# ", self.command.middleLine)
         self.assertEqual("# ", self.command.lastLine)
 
+    def test_determine_location_blank_file(self):
+        location = self.command.determine_location()
+
+        self.assertEqual(0, location)
+
+    def test_determine_location_with_contents(self):
+        self.view.full_line_region = sublime.MockRegion(0, 12)
+        self.view.substr_string = u"foo bar baz\n"
+        location = self.command.determine_location()
+
+        self.assertEqual(0, location)
+
+    def test_determine_location_with_shebang(self):
+        self.view.full_line_region = sublime.MockRegion(0, 12)
+        self.view.substr_string = u"#!/bin/bash\n"
+        location = self.command.determine_location()
+
+        self.assertEqual(12, location)
+
 if __name__ == "__main__":
     unittest.main()

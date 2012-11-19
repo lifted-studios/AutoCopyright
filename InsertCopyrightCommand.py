@@ -30,7 +30,7 @@ class InsertCopyrightCommand(CopyrightCommand):
     def owner_selected(self):
         """Finishes inserting the copyright text after the owner is selected."""
         year = datetime.date.today().year
-        location = self.__determine_location()
+        location = self.determine_location()
         text = self.format_text(year, self.selected_owner)
         copyrightText = self.__build_block_comment(text)
 
@@ -62,7 +62,7 @@ class InsertCopyrightCommand(CopyrightCommand):
 
         return copyright
 
-    def __determine_location(self):
+    def determine_location(self):
         """Figures out the right location for the copyright text."""
         region = self.view.full_line(0)
         line = self.view.substr(region)
