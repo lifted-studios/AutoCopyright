@@ -27,7 +27,7 @@ class InsertCopyrightCommand(CopyrightCommand):
         """Describes the command."""
         return "Inserts the copyright text at the location of the current selection."
 
-    def owner_selected(self):
+    def on_owner_selected(self):
         """Finishes inserting the copyright text after the owner is selected."""
         year = datetime.date.today().year
         location = self.determine_location()
@@ -39,7 +39,8 @@ class InsertCopyrightCommand(CopyrightCommand):
     def run(self, edit):
         """Inserts the appropriate copyright text at the top of the file."""
         try:
-            self.__insert_copyright(edit)
+            self.edit = edit
+            self.__get_owner()
 
         except MissingOwnerException:
             self.handle_missing_owner_exception()
@@ -110,16 +111,11 @@ class InsertCopyrightCommand(CopyrightCommand):
 
         if type(owners).__name__ == "unicode":
             self.selected_owner = owners
-            self.owner_selected()
+            self.on_owner_selected()
 
         def on_quick_panel_done(index):
             print index
             self.selected_owner = owners[index]
-            self.owner_selected()
+            self.on_owner_selected()
 
         sublime.active_window().show_quick_panel(owners, on_quick_panel_done)
-
-    def __insert_copyright(self, edit):
-        """Inserts the copyright message into the view."""
-        self.edit = edit
-        self.__get_owner()
