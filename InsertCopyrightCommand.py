@@ -32,7 +32,7 @@ class InsertCopyrightCommand(CopyrightCommand):
         year = datetime.date.today().year
         location = self.determine_location()
         text = self.format_text(year, self.selected_owner)
-        copyrightText = self.__build_block_comment(text)
+        copyrightText = self.__build_comment(text)
 
         self.view.insert(self.edit, location, copyrightText)
 
@@ -45,10 +45,10 @@ class InsertCopyrightCommand(CopyrightCommand):
         except MissingOwnerException:
             self.handle_missing_owner_exception()
 
-    def __build_block_comment(self, text):
+    def __build_comment(self, text):
         """Builds a block comment and puts the given text into it."""
         self.get_block_comment_settings()
-        endings = self.__get_line_endings()
+        endings = u'\n'
 
         def make_comment(line):
             return self.middleLine + line + endings
@@ -88,19 +88,6 @@ class InsertCopyrightCommand(CopyrightCommand):
             self.firstLine = blockComments[0][0]
             self.middleLine = ''
             self.lastLine = blockComments[0][1]
-
-    def __get_line_endings(self):
-        """
-        Gets the appropriate line endings for the view.
-
-        Unix and Mac OS X use the LF character.  Windows uses the CRLF pair.  Old versions of Mac OS used just the CR character.
-        """
-        if self.view.line_endings() == constants.LINE_ENDING_UNIX:
-            return u'\u000a'
-        elif self.view.line_endings() == constants.LINE_ENDING_WINDOWS:
-            return u'\u000a\u000d'
-        else:
-            return u'\u000d'
 
     def __get_owner(self):
         """Gets the copyright owner name that should be used in the copyright message."""

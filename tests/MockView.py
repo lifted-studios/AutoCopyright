@@ -9,6 +9,7 @@ class MockView:
         self.insertCalled = False
         self.full_line_region = None
         self.substr_string = None
+        self.endings = u'Unix'
 
     def full_line(self, pos):
         return self.full_line_region or (0, 0)
@@ -21,6 +22,9 @@ class MockView:
 
     def line_endings(self):
         return u'Unix'
+
+    def set_line_endings(self, endings):
+        self.endings = endings
 
     def substr(self, region):
         return self.substr_string or u""

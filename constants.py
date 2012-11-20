@@ -3,8 +3,8 @@
 #
 
 ERROR_MISSING_OWNER = 'Default copyright owner not set.  Please edit the settings file to correct this.'
-LINE_ENDING_UNIX = 'Unix'
-LINE_ENDING_WINDOWS = 'Windows'
+LINE_ENDING_UNIX = u'Unix'
+LINE_ENDING_WINDOWS = u'Windows'
 PLUGIN_NAME = 'AutoCopyright'
 SETTING_COPYRIGHT_MESSAGE = 'copyright message'
 SETTING_OWNERS = 'owner'
