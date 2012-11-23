@@ -35,6 +35,7 @@ class UpdateCopyrightCommand(CopyrightCommand):
 
         for pattern in patterns:
             region = self.view.find(pattern, 0)
+
         while region is not None:
             if self.__is_in_comment(region):
                 self.matched_pattern = pattern
