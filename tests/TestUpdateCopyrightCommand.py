@@ -20,6 +20,9 @@ from MockView import MockView
 from UpdateCopyrightCommand import UpdateCopyrightCommand
 
 test_copyright = u"#\n# Copyright (c) 2010 by Lifted Studios.  All Rights Reserved.\n#\n"
+single_owner = u"Lifted Studios"
+single_owner_array = [u"Lifted Studios"]
+multiple_owner = [u"Lifted Studios", u"FooBar Industries"]
 
 
 class TestUpdateCopyrightCommand(unittest.TestCase):
@@ -33,22 +36,22 @@ class TestUpdateCopyrightCommand(unittest.TestCase):
         self.command.run(self.edit)
 
     def test_get_owners_single_owner(self):
-        sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
+        sublime.settings.set(constants.SETTING_OWNERS, single_owner)
         owners = self.command.get_owners()
 
-        self.assertEqual([u"Lifted Studios"], owners)
+        self.assertEqual([single_owner], owners)
 
     def test_get_owners_single_owner_in_array(self):
-        sublime.settings.set(constants.SETTING_OWNERS, [u"Lifted Studios"])
+        sublime.settings.set(constants.SETTING_OWNERS, single_owner_array)
         owners = self.command.get_owners()
 
-        self.assertEqual([u"Lifted Studios"], owners)
+        self.assertEqual(single_owner_array, owners)
 
     def test_get_owners_multiple_owners(self):
-        sublime.settings.set(constants.SETTING_OWNERS, [u"Lifted Studios", u"FooBar Industries"])
+        sublime.settings.set(constants.SETTING_OWNERS, multiple_owner)
         owners = self.command.get_owners()
 
-        self.assertEqual([u"Lifted Studios", u"FooBar Industries"], owners)
+        self.assertEqual(multiple_owner, owners)
 
     def test_get_owners_no_owners_setting(self):
         sublime.settings.set(constants.SETTING_OWNERS, None)
