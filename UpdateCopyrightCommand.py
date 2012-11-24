@@ -49,7 +49,7 @@ class UpdateCopyrightCommand(CopyrightCommand):
         match = re.match(pattern, text)
         return match.group(1)
 
-    def __get_owners(self):
+    def get_owners(self):
         """Gets the list of owners from the settings."""
         owners = self.settings.get(constants.SETTING_OWNERS)
 
@@ -64,7 +64,7 @@ class UpdateCopyrightCommand(CopyrightCommand):
     def __get_patterns(self):
         """Gets the patterns to use to find the copyright text."""
         if self.patterns is None:
-            owners = self.__get_owners()
+            owners = self.get_owners()
 
         self.patterns = {}
         for owner in owners:
