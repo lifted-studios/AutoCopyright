@@ -27,6 +27,6 @@ class TestUpdateCopyrightCommand(unittest.TestCase):
         self.view = MockView(test_copyright)
         self.command = UpdateCopyrightCommand(self.view)
 
-    def test_update_sindle_owner_happy_path(self):
+    def test_update_single_owner_happy_path(self):
         sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
         self.command.run(self.edit)
