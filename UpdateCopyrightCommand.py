@@ -31,7 +31,7 @@ class UpdateCopyrightCommand(CopyrightCommand):
 
     def __find_copyright(self):
         """Finds the first matching copyright text."""
-        patterns = self.__get_patterns()
+        patterns = self.get_patterns()
 
         for pattern in patterns:
             region = self.view.find(pattern, 0)
@@ -61,7 +61,7 @@ class UpdateCopyrightCommand(CopyrightCommand):
 
         return owners
 
-    def __get_patterns(self):
+    def get_patterns(self):
         """Gets the patterns to use to find the copyright text."""
         if self.patterns is None:
             owners = self.get_owners()
