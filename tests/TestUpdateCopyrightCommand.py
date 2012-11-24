@@ -14,6 +14,7 @@ import constants
 import unittest
 import sublime
 
+from Exception import MissingOwnerException
 from MockEdit import MockEdit
 from MockView import MockView
 from UpdateCopyrightCommand import UpdateCopyrightCommand
@@ -48,3 +49,13 @@ class TestUpdateCopyrightCommand(unittest.TestCase):
         owners = self.command.get_owners()
 
         self.assertEqual([u"Lifted Studios", u"FooBar Industries"], owners)
+
+    def test_get_owners_no_owners_setting(self):
+        sublime.settings.set(constants.SETTING_OWNERS, None)
+        with self.assertRaises(MissingOwnerException):
+            self.command.get_owners()
+
+    def test_get_owners_empty_owners_list(self):
+        sublime.settings.set(constants.SETTING_OWNERS, [])
+        with self.assertRaises(MissingOwnerException):
+            self.command.get_owners()
