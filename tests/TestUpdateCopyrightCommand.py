@@ -32,7 +32,7 @@ class TestUpdateCopyrightCommand(unittest.TestCase):
         self.command = UpdateCopyrightCommand(self.view)
 
     def test_update_single_owner_happy_path(self):
-        sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
+        sublime.settings.set(constants.SETTING_OWNERS, single_owner)
         self.command.run(self.edit)
 
     def test_get_owners_single_owner(self):
