@@ -22,6 +22,7 @@ from UpdateCopyrightCommand import UpdateCopyrightCommand
 test_copyright = u"#\n# Copyright (c) 2010 by Lifted Studios.  All Rights Reserved.\n#\n"
 single_owner = u"Lifted Studios"
 single_owner_pattern = u"\\|(\\d+)(-\\d+)?\\|Lifted Studios\\|"
+second_owner_pattern = u"\\|(\\d+)(-\\d+)?\\|FooBar Industries\\|"
 single_owner_array = [u"Lifted Studios"]
 multiple_owner = [u"Lifted Studios", u"FooBar Industries"]
 
@@ -69,3 +70,27 @@ class TestUpdateCopyrightCommand(unittest.TestCase):
         patterns = self.command.get_patterns()
 
         self.assertEqual({single_owner_pattern: single_owner}, patterns)
+
+    def test_get_patterns_single_owner_in_array(self):
+        sublime.settings.set(constants.SETTING_OWNERS, [single_owner])
+        patterns = self.command.get_patterns()
+
+        self.assertEqual({single_owner_pattern: single_owner}, patterns)
+
+    def test_get_patterns_multiple_owners(self):
+        sublime.settings.set(constants.SETTING_OWNERS, multiple_owner)
+        patterns = self.command.get_patterns()
+
+        self.assertEqual(2, len(patterns))
+        self.assertIn(single_owner_pattern, patterns)
+        self.assertIn(second_owner_pattern, patterns)
+
+    def test_get_patterns_no_owner_setting(self):
+        sublime.settings.set(constants.SETTING_OWNERS, None)
+        with self.assertRaises(MissingOwnerException):
+            self.command.get_patterns()
+
+    def test_get_patterns_empty_owners_list(self):
+        sublime.settings.set(constants.SETTING_OWNERS, [])
+        with self.assertRaises(MissingOwnerException):
+            self.command.get_patterns()
