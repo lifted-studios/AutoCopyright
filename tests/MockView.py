@@ -5,11 +5,10 @@
 
 class MockView:
     """Mock View class for testing."""
-    def __init__(self, contents=None):
+    def __init__(self):
         self.insertCalled = False
         self.full_line_region = None
         self.substr_string = None
-        self.contents = contents
 
     def full_line(self, pos):
         return self.full_line_region or (0, 0)
