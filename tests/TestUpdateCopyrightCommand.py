@@ -19,7 +19,8 @@ from MockEdit import MockEdit
 from FakeView import FakeView
 from UpdateCopyrightCommand import UpdateCopyrightCommand
 
-test_copyright = u"#\n# Copyright (c) 2010 by Lifted Studios.  All Rights Reserved.\n#\n"
+test_copyright = u"#\n# Copyright (c) |2010|Lifted Studios|.  All Rights Reserved.\n#\n"
+expected_copyright = u"#\n# Copyright (c) |2010-2012|Lifted Studios|.  All Rights Reserved.\n#\n"
 single_owner = u"Lifted Studios"
 single_owner_pattern = u"\\|(\\d+)(-\\d+)?\\|Lifted Studios\\|"
 second_owner_pattern = u"\\|(\\d+)(-\\d+)?\\|FooBar Industries\\|"
@@ -36,6 +37,9 @@ class TestUpdateCopyrightCommand(unittest.TestCase):
     def test_update_single_owner_happy_path(self):
         sublime.settings.set(constants.SETTING_OWNERS, single_owner)
         self.command.run(self.edit)
+
+        self.assertIsNotNone(self.command.patterns)
+        self.assertEqual(expected_copyright, self.view.contents)
 
     def test_get_owners_single_owner(self):
         sublime.settings.set(constants.SETTING_OWNERS, single_owner)
