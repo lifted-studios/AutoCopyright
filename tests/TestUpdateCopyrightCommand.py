@@ -16,7 +16,7 @@ import sublime
 
 from Exception import MissingOwnerException
 from MockEdit import MockEdit
-from MockView import MockView
+from FakeView import FakeView
 from UpdateCopyrightCommand import UpdateCopyrightCommand
 
 test_copyright = u"#\n# Copyright (c) 2010 by Lifted Studios.  All Rights Reserved.\n#\n"
@@ -30,7 +30,7 @@ multiple_owner = [u"Lifted Studios", u"FooBar Industries"]
 class TestUpdateCopyrightCommand(unittest.TestCase):
     def setUp(self):
         self.edit = MockEdit()
-        self.view = MockView(test_copyright)
+        self.view = FakeView(test_copyright)
         self.command = UpdateCopyrightCommand(self.view)
 
     def test_update_single_owner_happy_path(self):
