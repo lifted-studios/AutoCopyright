@@ -132,6 +132,8 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual("/*\n|{0}|{1}|\n*/\n".format(self.year, multiple_owners[index]), self.view.text)
 
     def test_get_comment_settings_line_comments(self):
+        sublime.settings.set(constants.SETTING_LANGUAGES_USE_LINE_COMMENTS, u'Bar')
+        sublime.settings.set(u'syntax', u'Packages/Foo/Foo.tmLanguage')
         self.command.get_comment_settings()
 
         self.assertEqual(u"# ", self.command.firstLine)
@@ -140,14 +142,28 @@ class TestInsertCopyrightCommand(unittest.TestCase):
 
     def test_get_comment_settings_block_comments(self):
         comment.set_block_comments()
+        sublime.settings.set(constants.SETTING_LANGUAGES_USE_LINE_COMMENTS, u'Bar')
+        sublime.settings.set(u'syntax', u'Packages/Foo/Foo.tmLanguage')
         self.command.get_comment_settings()
 
         self.assertEqual("/*", self.command.firstLine)
         self.assertEqual("", self.command.middleLine)
         self.assertEqual("*/", self.command.lastLine)
 
+    def test_get_comment_settings_block_comments_with_override(self):
+        comment.set_block_comments()
+        sublime.settings.set(constants.SETTING_LANGUAGES_USE_LINE_COMMENTS, u'Foo')
+        sublime.settings.set(u'syntax', u'Packages/Foo/Foo.tmLanguage')
+        self.command.get_comment_settings()
+
+        self.assertEqual("// ", self.command.firstLine)
+        self.assertEqual("// ", self.command.middleLine)
+        self.assertEqual("// ", self.command.lastLine)
+
     def test_get_comment_settings_no_comment_info(self):
         comment.set_no_comments()
+        sublime.settings.set(constants.SETTING_LANGUAGES_USE_LINE_COMMENTS, u'Bar')
+        sublime.settings.set(u'syntax', u'Packages/Foo/Foo.tmLanguage')
         self.command.get_comment_settings()
 
         self.assertEqual("# ", self.command.firstLine)

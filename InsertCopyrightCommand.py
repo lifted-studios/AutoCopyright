@@ -75,12 +75,14 @@ class InsertCopyrightCommand(CopyrightCommand):
     def get_comment_settings(self):
         """Determines the appropriate block comment characters for the currently selected syntax."""
         lineComments, blockComments = comment.build_comment_data(self.view, 0)
+        lang = self.get_language_descriptor()
+        overrideLanguages = self.settings.get(constants.SETTING_LANGUAGES_USE_LINE_COMMENTS)
 
         if len(lineComments) == 0 and len(blockComments) == 0:
             self.firstLine = '# '
             self.middleLine = '# '
             self.lastLine = '# '
-        elif len(blockComments) == 0 and len(lineComments) > 0:
+        elif lang in overrideLanguages or (len(blockComments) == 0 and len(lineComments) > 0):
             self.firstLine = lineComments[0][0]
             self.middleLine = lineComments[0][0]
             self.lastLine = lineComments[0][0]
@@ -88,6 +90,14 @@ class InsertCopyrightCommand(CopyrightCommand):
             self.firstLine = blockComments[0][0]
             self.middleLine = ''
             self.lastLine = blockComments[0][1]
+
+    def get_language_descriptor(self):
+        longLanguage = self.view.settings().get(u'syntax')
+        match = re.search("/([^/]+)\\.tmLanguage$", longLanguage)
+        if match:
+            return match.group(1)
+
+        return None
 
     def __get_owner(self):
         """Gets the copyright owner name that should be used in the copyright message."""
