@@ -111,7 +111,6 @@ class InsertCopyrightCommand(CopyrightCommand):
             self.on_owner_selected()
 
         def on_quick_panel_done(index):
-            print index
             self.selected_owner = owners[index]
             self.on_owner_selected()
 

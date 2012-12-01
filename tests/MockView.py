@@ -2,6 +2,8 @@
 # Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
 #
 
+import sublime
+
 
 class MockView:
     """Mock View class for testing."""
@@ -18,6 +20,9 @@ class MockView:
         self.location = location
         self.text = text
         self.insertCalled = True
+
+    def settings(self):
+        return sublime.settings
 
     def substr(self, region):
         return self.substr_string or u""

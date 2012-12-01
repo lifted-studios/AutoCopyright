@@ -61,12 +61,12 @@ class UpdateCopyrightCommand(CopyrightCommand):
 
     def get_patterns(self):
         """Gets the patterns to use to find the copyright text."""
-        if self.patterns is None:
-            owners = self.get_owners()
+        owners = self.get_owners()
 
-        self.patterns = {}
-        for owner in owners:
-            self.patterns[self.format_pattern("(\d+)(-\d+)?", owner)] = owner
+        if self.patterns is None:
+            self.patterns = {}
+            for owner in owners:
+                self.patterns[self.format_pattern("(\d+)(-\d+)?", owner)] = owner
 
         return self.patterns
 
