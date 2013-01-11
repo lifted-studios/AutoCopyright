@@ -18,9 +18,10 @@ from Exception import MissingOwnerException
 from MockEdit import MockEdit
 from FakeView import FakeView
 from UpdateCopyrightCommand import UpdateCopyrightCommand
+from datetime import date
 
 test_copyright = u"#\n# Copyright (c) |2010|Lifted Studios|.  All Rights Reserved.\n#\n"
-expected_copyright = u"#\n# Copyright (c) |2010-2012|Lifted Studios|.  All Rights Reserved.\n#\n"
+expected_copyright = u"#\n# Copyright (c) |2010-%d|Lifted Studios|.  All Rights Reserved.\n#\n" % date.today().year
 single_owner = u"Lifted Studios"
 single_owner_pattern = u"\\|(\\d+)(-\\d+)?\\|Lifted Studios\\|"
 second_owner_pattern = u"\\|(\\d+)(-\\d+)?\\|FooBar Industries\\|"
