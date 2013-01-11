@@ -87,7 +87,6 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         user_settings_filename = os.path.join(
                                    sublime.packages_path(),
                                    constants.SETTINGS_PATH_USER,
-                                   constants.PLUGIN_NAME,
                                    constants.SETTINGS_FILE)
         self.assertEqual(user_settings_filename, sublime.active_window().opened_file)
         self.assertTrue(os.path.exists(user_settings_filename))
@@ -99,7 +98,6 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         user_settings_filename = os.path.join(
                                    sublime.packages_path(),
                                    constants.SETTINGS_PATH_USER,
-                                   constants.PLUGIN_NAME,
                                    constants.SETTINGS_FILE)
         self.assertEqual(user_settings_filename, sublime.active_window().opened_file)
         self.assertTrue(os.path.exists(user_settings_filename))
