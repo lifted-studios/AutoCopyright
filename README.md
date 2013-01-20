@@ -23,9 +23,21 @@ Go to the "Packages" directory (`Preferences` / `Browse Packages...`).  Then clo
 
 Edit the settings file (it should open automatically the first time you use an Auto Copyright command):
 
+*   `"copyright message": "Copyright (c) %y by %o.  All Rights Reserved."`
+
+    This is the copyright message the plugin will use.  `%y` is replaced by the year or year range.  `%o` is replaced by the selected owner text.
+
+*   `"languages use line comments": ["Ruby"]`
+
+    This is the list of languages that will use line comments for the copyright comment block even though block comments are available in the language.
+
 *   `"owner": [""]`
 
     You need to enter the text you want to show up as the primary copyright owner.  If you have multiple copyright owners, then enter them as an array.
+
+*   `"padding": 1`
+
+    This is the amount of padding around the line that contains the copyright.  The default is one line above and below the copyright line.
 
 # Usage
 
