@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
+# Copyright (c) 2012-2013 by Lifted Studios.  All Rights Reserved.
 #
 
 import os
@@ -56,10 +56,10 @@ class InsertCopyrightCommand(CopyrightCommand):
         def concatenate(x, y):
             return x + y
 
-        copyright = self.firstLine + endings
+        copyright = self.firstLine.strip() + endings
         lines = map(make_comment, text.split(endings))
         copyright += reduce(concatenate, lines)
-        copyright += self.lastLine + endings
+        copyright += self.lastLine.strip() + endings
 
         return copyright
 
@@ -79,16 +79,16 @@ class InsertCopyrightCommand(CopyrightCommand):
         overrideLanguages = self.settings.get(constants.SETTING_LANGUAGES_USE_LINE_COMMENTS)
 
         if len(lineComments) == 0 and len(blockComments) == 0:
-            self.firstLine = '# '
-            self.middleLine = '# '
-            self.lastLine = '# '
+            self.firstLine = u"# "
+            self.middleLine = u"# "
+            self.lastLine = u"# "
         elif lang in overrideLanguages or (len(blockComments) == 0 and len(lineComments) > 0):
             self.firstLine = lineComments[0][0]
             self.middleLine = lineComments[0][0]
             self.lastLine = lineComments[0][0]
         else:
             self.firstLine = blockComments[0][0]
-            self.middleLine = ''
+            self.middleLine = u""
             self.lastLine = blockComments[0][1]
 
     def get_language_descriptor(self):

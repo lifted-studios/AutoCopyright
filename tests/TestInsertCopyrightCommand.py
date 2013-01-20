@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
+# Copyright (c) 2012-2013 by Lifted Studios.  All Rights Reserved.
 #
 
 import os
@@ -68,7 +68,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertTrue(self.view.insertCalled)
         self.assertIs(self.edit, self.view.edit)
         self.assertEqual(0, self.view.location)
-        self.assertEqual("# \n# |{0}|Lifted Studios|\n# \n".format(self.year), self.view.text)
+        self.assertEqual("#\n# |{0}|Lifted Studios|\n#\n".format(self.year), self.view.text)
 
     def test_insert_single_owner_with_block_comments_happy_path(self):
         comment.set_block_comments()
@@ -113,7 +113,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertTrue(self.view.insertCalled)
         self.assertIs(self.edit, self.view.edit)
         self.assertEqual(0, self.view.location)
-        self.assertEqual("# \n# |{0}|{1}|\n# \n".format(self.year, multiple_owners[index]), self.view.text)
+        self.assertEqual("#\n# |{0}|{1}|\n#\n".format(self.year, multiple_owners[index]), self.view.text)
 
     def test_insert_multiple_owners_with_block_comments_happy_path(self):
         comment.set_block_comments()
