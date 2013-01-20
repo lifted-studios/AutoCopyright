@@ -101,6 +101,17 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertEqual(0, self.view.location)
         self.assertEqual("#\n#\n# |{0}|Lifted Studios|\n#\n#\n".format(self.year), self.view.text)
 
+    def test_insert_block_comments_with_zero_padding(self):
+        comment.set_block_comments()
+        sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
+        sublime.settings.set(constants.SETTING_PADDING, 0)
+        self.command.run(self.edit)
+
+        self.assertTrue(self.view.insertCalled)
+        self.assertIs(self.edit, self.view.edit)
+        self.assertEqual(0, self.view.location)
+        self.assertEqual("/*|{0}|Lifted Studios|*/\n".format(self.year), self.view.text)
+
     def test_no_owners(self):
         sublime.settings.set(constants.SETTING_OWNERS, None)
         self.command.run(self.edit)
