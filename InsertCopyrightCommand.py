@@ -108,14 +108,18 @@ class InsertCopyrightCommand(CopyrightCommand):
         if padding == 0:
             return self.firstLine.strip() + text + self.lastLine.strip() + endings
 
-        for i in range(padding):
-            copyright += self.firstLine.strip() + endings
+        copyright += self.firstLine.strip() + endings
+
+        for i in range(padding - 1):
+            copyright += self.middleLine.strip() + endings
 
         lines = map(make_comment, text.split(endings))
         copyright += reduce(concatenate, lines)
 
-        for i in range(padding):
-            copyright += self.lastLine.strip() + endings
+        for i in range(padding - 1):
+            copyright += self.middleLine.strip() + endings
+
+        copyright += self.lastLine.strip() + endings
 
         return copyright
 
