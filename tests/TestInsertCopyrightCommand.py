@@ -110,7 +110,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertTrue(self.view.insertCalled)
         self.assertIs(self.edit, self.view.edit)
         self.assertEqual(0, self.view.location)
-        self.assertEqual("/*|{0}|Lifted Studios|*/\n".format(self.year), self.view.text)
+        self.assertEqual("/* |{0}|Lifted Studios| */\n".format(self.year), self.view.text)
 
     def test_insert_block_comments_with_extra_padding(self):
         comment.set_block_comments()

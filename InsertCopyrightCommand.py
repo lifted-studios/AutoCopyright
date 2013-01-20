@@ -106,7 +106,7 @@ class InsertCopyrightCommand(CopyrightCommand):
             return x + y
 
         if padding == 0:
-            return self.firstLine.strip() + text + self.lastLine.strip() + endings
+            return self.firstLine + u" " + text + u" " + self.lastLine + endings
 
         copyright += self.firstLine.strip() + endings
 
