@@ -49,6 +49,7 @@ class TestInsertCopyrightCommand(unittest.TestCase):
 
     def setUp(self):
         sublime.settings.set(constants.SETTING_COPYRIGHT_MESSAGE, "|%y|%o|")
+        sublime.settings.set(constants.SETTING_PADDING, None)
         self.view = sublime.MockView()
         self.edit = sublime.MockEdit()
         self.command = InsertCopyrightCommand(self.view)
@@ -79,6 +80,26 @@ class TestInsertCopyrightCommand(unittest.TestCase):
         self.assertIs(self.edit, self.view.edit)
         self.assertEqual(0, self.view.location)
         self.assertEqual("/*\n|{0}|Lifted Studios|\n*/\n".format(self.year), self.view.text)
+
+    def test_insert_line_comments_with_zero_padding(self):
+        sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
+        sublime.settings.set(constants.SETTING_PADDING, 0)
+        self.command.run(self.edit)
+
+        self.assertTrue(self.view.insertCalled)
+        self.assertIs(self.edit, self.view.edit)
+        self.assertEqual(0, self.view.location)
+        self.assertEqual("# |{0}|Lifted Studios|\n".format(self.year), self.view.text)
+
+    def test_insert_line_comments_with_extra_padding(self):
+        sublime.settings.set(constants.SETTING_OWNERS, u"Lifted Studios")
+        sublime.settings.set(constants.SETTING_PADDING, 2)
+        self.command.run(self.edit)
+
+        self.assertTrue(self.view.insertCalled)
+        self.assertIs(self.edit, self.view.edit)
+        self.assertEqual(0, self.view.location)
+        self.assertEqual("#\n#\n# |{0}|Lifted Studios|\n#\n#\n".format(self.year), self.view.text)
 
     def test_no_owners(self):
         sublime.settings.set(constants.SETTING_OWNERS, None)

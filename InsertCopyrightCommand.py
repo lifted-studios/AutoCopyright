@@ -56,10 +56,20 @@ class InsertCopyrightCommand(CopyrightCommand):
         def concatenate(x, y):
             return x + y
 
-        copyright = self.firstLine.strip() + endings
+        padding = self.settings.get(constants.SETTING_PADDING)
+        if padding is None:
+            padding = 1
+
+        copyright = u""
+
+        for i in range(padding):
+            copyright += self.firstLine.strip() + endings
+
         lines = map(make_comment, text.split(endings))
         copyright += reduce(concatenate, lines)
-        copyright += self.lastLine.strip() + endings
+
+        for i in range(padding):
+            copyright += self.lastLine.strip() + endings
 
         return copyright
 
