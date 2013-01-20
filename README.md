@@ -41,7 +41,7 @@ Edit the settings file (it should open automatically the first time you use an A
 
 # Usage
 
-Two functions will show up in the Command Palette under "Auto Copyright".  Additionally, the Update Copyright command will be called just before any file is saved.
+Two functions will show up in the Command Palette under "Auto Copyright".  Additionally, the Update Copyright command will automatically be called just before any file is saved.
 
 ## Insert Copyright
 
