@@ -2,6 +2,10 @@
 
 A [Sublime Text 2](http://www.sublimetext.com/) plugin to automate adding the appropriate copyright text at the top of every file.
 
+# Compatibility
+
+AutoCopyright is only compatible with Sublime Text 2 at this time.  We have plans for upgrading it to support Sublime Text 3 when possible.
+
 # Installation
 
 ## Package Control
