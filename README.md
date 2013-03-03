@@ -27,7 +27,7 @@ $ git clone git://github.com/lifted-studios/AutoCopyright
 
 ## Options
 
-Edit the settings file (it should open automatically the first time you use an Auto Copyright command):
+Edit the settings file by using the `Preferences: AutoCopyright Settings - User` command in the command palette.  Or it should open automatically the first time you use an AutoCopyright command.
 
 *   `"copyright message": "Copyright (c) %y by %o.  All Rights Reserved."`
 
@@ -47,7 +47,7 @@ Edit the settings file (it should open automatically the first time you use an A
 
 ## Usage
 
-Two functions will show up in the Command Palette under "Auto Copyright".  Additionally, the Update Copyright command will automatically be called just before any file is saved.
+Two functions will show up in the Command Palette under `Auto Copyright` and another two will show up under `Preferences`.  Additionally, the `Update Copyright` command will automatically be called just before any file is saved.
 
 ### Insert Copyright
 
@@ -56,6 +56,14 @@ Adds the copyright text to the beginning of the file.  It will add itself after 
 ### Update Copyright
 
 Updates the copyright text already present in the file, but only if the text matches, including the copyright owner name except for the year.  It will update the copyright year to include all years between the original year and this one.  The command will update the copyright text for any of the configured owner texts.
+
+### Preferences: AutoCopyright Settings - Default
+
+Opens the default AutoCopyright settings file.  **This file should not be altered.  Use the User settings file for your settings.**
+
+### Preferences: AutoCopyright Settings - User
+
+Opens the AutoCopyright user settings file.  This is where you add your customizations.
 
 ## Information
 

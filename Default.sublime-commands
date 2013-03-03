@@ -6,5 +6,19 @@
     {
         "caption": "Auto Copyright: Update Copyright",
         "command": "update_copyright"
+    },
+    {
+        "caption": "Preferences: AutoCopyright Settings – Default",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/AutoCopyright/AutoCopyright.sublime-settings"
+        }
+    },
+    {
+        "caption": "Preferences: AutoCopyright Settings – User",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/User/AutoCopyright.sublime-settings"
+        }
     }
 ]
