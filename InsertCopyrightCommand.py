@@ -11,7 +11,7 @@ default_package_dir = os.path.join(package_dir, 'Default')
 sys.path.append(default_package_dir)
 
 import comment
-import constants
+import AutoCopyright.constants
 import datetime
 import re
 import sublime

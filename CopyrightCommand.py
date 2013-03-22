@@ -2,8 +2,8 @@
 # Copyright (c) 2012-2013 by Lifted Studios.  All Rights Reserved.
 #
 
-import constants
-import helper
+import AutoCopyright.constants
+import AutoCopyright.helper
 import os
 import re
 import shutil

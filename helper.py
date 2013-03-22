@@ -2,7 +2,7 @@
 # Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
 #
 
-import constants
+import AutoCopyright.constants
 import sublime
 
 

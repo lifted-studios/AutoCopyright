@@ -2,12 +2,12 @@
 # Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
 #
 
-import constants
+import AutoCopyright.constants
 import datetime
 import re
 
-from CopyrightCommand import CopyrightCommand
-from Exception import MissingOwnerException
+from AutoCopyright.CopyrightCommand import CopyrightCommand
+from AutoCopyright.Exception import MissingOwnerException
 
 
 class UpdateCopyrightCommand(CopyrightCommand):
