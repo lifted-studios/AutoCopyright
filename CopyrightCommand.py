@@ -16,7 +16,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
 
     def __init__(self, view):
         """Initializes the CopyrightCommand class."""
-        self.settings = sublime.load_settings(constants.SETTINGS_FILE)
+        self.settings = sublime.load_settings(AutoCopyright.constants.SETTINGS_FILE)
         self.view = view
         self.selected_owner = None
 
@@ -37,7 +37,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
         if len(owner) == 0:
             raise TypeError("owner cannot be empty.")
 
-        text = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
+        text = self.settings.get(AutoCopyright.constants.SETTING_COPYRIGHT_MESSAGE)
         text = text.replace("%y", str(year))
         text = text.replace("%o", owner)
 
@@ -46,12 +46,12 @@ class CopyrightCommand(sublime_plugin.TextCommand):
     def handle_missing_owner_exception(self):
         """Opens the settings file and suggests the user edit it with the proper owner name."""
         fileName = sublime.active_window().active_view().file_name()
-        if fileName is not None and fileName.endswith(constants.SETTINGS_FILE):
+        if fileName is not None and fileName.endswith(AutoCopyright.constants.SETTINGS_FILE):
             return
 
-        helper.error_message(constants.ERROR_MISSING_OWNER)
-        user_settings_path = os.path.join(sublime.packages_path(), constants.SETTINGS_PATH_USER)
-        user_settings_filename = os.path.join(user_settings_path, constants.SETTINGS_FILE)
+        AutoCopyright.helper.error_message(AutoCopyright.constants.ERROR_MISSING_OWNER)
+        user_settings_path = os.path.join(sublime.packages_path(), AutoCopyright.constants.SETTINGS_PATH_USER)
+        user_settings_filename = os.path.join(user_settings_path, AutoCopyright.constants.SETTINGS_FILE)
 
         if not os.path.exists(user_settings_path):
             os.makedirs(user_settings_path)
