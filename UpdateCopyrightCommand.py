@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2012 by Lifted Studios.  All Rights Reserved.
+# Copyright (c) 2012-2013 by Lifted Studios.  All Rights Reserved.
 #
 
 import AutoCopyright.constants
