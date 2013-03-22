@@ -49,7 +49,7 @@ class UpdateCopyrightCommand(CopyrightCommand):
 
     def get_owners(self):
         """Gets the list of owners from the settings."""
-        owners = self.settings.get(constants.SETTING_OWNERS)
+        owners = self.settings.get(AutoCopyright.constants.SETTING_OWNERS)
 
         if not owners or len(owners) == 0:
             raise MissingOwnerException()
