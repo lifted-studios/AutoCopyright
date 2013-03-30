@@ -1,0 +1,23 @@
+{
+    "schema_version": "1.2",
+    "packages": 
+    [
+        {
+            "name": "AutoCopyright",
+            "description": "Automates adding/updating the appropriate copyright text at the top of a file.",
+            "author": "Lee Dohm (lee-dohm), Lifted Studios (lifted-studios)",
+            "homepage": "https://github.com/lifted-studios/AutoCopyright",
+            "last_modified": "2013-03-30 10:17:00",
+            "platforms": 
+            {
+                "*": 
+                [
+                    {
+                        "version": "1.0.0",
+                        "url": "https://nodeload.github.com/lifted-studios/AutoCopyright/zipball/v1.0.0"
+                    }
+                ]
+            }
+        }
+    ]
+}
