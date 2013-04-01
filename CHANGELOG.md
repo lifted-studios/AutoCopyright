@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Version 1.0.0 - *unreleased*
+## Version 1.0.0
 
 * **Final Sublime Text 2 release**
 * Convert to [semantic versioning](http://www.semver.org)
