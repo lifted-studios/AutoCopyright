@@ -31,7 +31,8 @@ class InsertCopyrightCommand(CopyrightCommand):
         """Finishes inserting the copyright text after the owner is selected."""
         year = datetime.date.today().year
         location = self.determine_location()
-        text = self.format_text(year, self.selected_owner)
+        fileName = self.get_fileName()
+        text = self.format_text(year, self.selected_owner, fileName)
         copyrightText = self.__build_comment(text)
 
         self.view.insert(self.edit, location, copyrightText)
@@ -145,6 +146,15 @@ class InsertCopyrightCommand(CopyrightCommand):
             copyright += self.lastLine.strip() + endings
 
         return copyright
+
+    def get_fileName(self):
+        """Get the actual file name."""
+        fileName = sublime.active_window().active_view().file_name()
+        if fileName is not None:
+            fileName = os.path.basename(fileName)
+            return fileName
+        else:
+            return "unknown-filename"
 
     def __get_owner(self):
         """Gets the copyright owner name that should be used in the copyright message."""

@@ -20,16 +20,17 @@ class CopyrightCommand(sublime_plugin.TextCommand):
         self.view = view
         self.selected_owner = None
 
-    def format_pattern(self, year, owner):
+    def format_pattern(self, year, owner, fileName):
         """Creates a search pattern for the copyright text."""
-        text = self.format_text("yyyear", "ooowner")
+        text = self.format_text("yyyear", "ooowner", "fffileName")
         text = re.escape(text)
         text = text.replace("yyyear", year)
+        text = text.replace("fffileName", fileName)
         pattern = text.replace("ooowner", owner)
 
         return pattern
 
-    def format_text(self, year, owner):
+    def format_text(self, year, owner, fileName):
         """Formats the text of the copyright message."""
         if year is None:
             raise TypeError("year cannot be None.")
@@ -40,6 +41,7 @@ class CopyrightCommand(sublime_plugin.TextCommand):
         text = self.settings.get(constants.SETTING_COPYRIGHT_MESSAGE)
         text = text.replace("%y", str(year))
         text = text.replace("%o", owner)
+        text = text.replace("%f", fileName)
 
         return text
 

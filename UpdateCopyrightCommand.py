@@ -5,6 +5,8 @@
 import constants
 import datetime
 import re
+import sublime
+import os
 
 from CopyrightCommand import CopyrightCommand
 from Exception import MissingOwnerException
@@ -59,14 +61,23 @@ class UpdateCopyrightCommand(CopyrightCommand):
 
         return owners
 
+    def get_fileName(self):
+        """Get the actual file name."""
+        fileName = sublime.active_window().active_view().file_name()
+        if fileName is not None:
+            fileName = os.path.basename(fileName)
+            return fileName
+        else:
+            return "unknown-filename"
+
     def get_patterns(self):
         """Gets the patterns to use to find the copyright text."""
         owners = self.get_owners()
-
+        fileName = self.get_fileName()
         if self.patterns is None:
             self.patterns = {}
             for owner in owners:
-                self.patterns[self.format_pattern("(\d+)(-\d+)?", owner)] = owner
+                self.patterns[self.format_pattern("(\d+)(-\d+)?", owner, fileName)] = owner
 
         return self.patterns
 
@@ -94,7 +105,8 @@ class UpdateCopyrightCommand(CopyrightCommand):
     def __replace_match(self, region, oldYear, newYear):
         """Replace the old copyright text with the new copyright text."""
         owner = self.patterns[self.matched_pattern]
-        message = self.format_text(oldYear + "-" + newYear, owner)
+        fileName = self.get_fileName();
+        message = self.format_text(oldYear + "-" + newYear, owner, fileName)
         self.view.replace(self.edit, region, message)
         self.edit = None
 
