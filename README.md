@@ -31,7 +31,7 @@ Edit the settings file by using the `Preferences: AutoCopyright Settings - User`
 
 *   `"copyright message": "Copyright (c) %y by %o.  All Rights Reserved."`
 
-    This is the copyright message the plugin will use.  `%y` is replaced by the year or year range.  `%o` is replaced by the selected owner text.
+    This is the copyright message the plugin will use.  `%y` is replaced by the year or year range.  `%o` is replaced by the selected owner text. `%f` is replaced by the current file name.
 
 *   `"languages use line comments": ["Ruby"]`
 
