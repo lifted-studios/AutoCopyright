@@ -1,8 +1,11 @@
 # CHANGELOG
 
+## Version 1.0.1
+
+* Feature: Can add the filename to the copyright text with `%f`
+
 ## Version 1.0.0
 
-* **Final Sublime Text 2 release**
 * Convert to [semantic versioning](http://www.semver.org)
 
 ## Version 0.9.0

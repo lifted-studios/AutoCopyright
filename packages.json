@@ -7,14 +7,14 @@
             "description": "Automates adding/updating the appropriate copyright text at the top of a file.",
             "author": "Lee Dohm (lee-dohm), Lifted Studios (lifted-studios)",
             "homepage": "https://github.com/lifted-studios/AutoCopyright",
-            "last_modified": "2013-04-25 23:59:00",
+            "last_modified": "2013-05-09 09:09:00",
             "platforms":
             {
                 "*":
                 [
                     {
-                        "version": "1.0.0",
-                        "url": "https://nodeload.github.com/lifted-studios/AutoCopyright/zip/v1.0.0"
+                        "version": "1.0.1",
+                        "url": "https://nodeload.github.com/lifted-studios/AutoCopyright/zip/v1.0.1"
                     }
                 ]
             }
