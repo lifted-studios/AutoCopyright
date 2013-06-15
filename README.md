@@ -70,3 +70,7 @@ Opens the AutoCopyright user settings file.  This is where you add your customiz
 Source: https://github.com/lifted-studios/AutoCopyright
 
 Authors: [Lee Dohm](https://github.com/lee-dohm/), [Lifted Studios](https://github.com/lifted-studios/)
+
+## Copyright
+
+All else is Copyright &copy; 2013 [Lee Dohm](https://github.com/lee-dohm), [Lifted Studios](https://github.com/lifted-studios).  See [LICENSE](LICENSE.md) for details.
