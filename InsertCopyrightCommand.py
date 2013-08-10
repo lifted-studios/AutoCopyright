@@ -4,6 +4,7 @@
 
 import AutoCopyright.constants
 import datetime
+import functools
 import os
 import re
 import sublime
@@ -28,7 +29,7 @@ def build_comment_data(view, pt):
     block_comments = []
 
     # transform the dict into a single array of valid comments
-    suffixes = [""] + ["_" + str(i) for i in xrange(1, 10)]
+    suffixes = [""] + ["_" + str(i) for i in range(1, 10)]
     for suffix in suffixes:
         start = all_vars.setdefault("TM_COMMENT_START" + suffix)
         end = all_vars.setdefault("TM_COMMENT_END" + suffix)
@@ -139,7 +140,7 @@ class InsertCopyrightCommand(CopyrightCommand):
             copyright += self.middleLine.strip() + endings
 
         lines = map(make_comment, text.split(endings))
-        copyright += reduce(concatenate, lines)
+        copyright += functools.reduce(concatenate, lines)
 
         for i in range(padding - 1):
             copyright += self.middleLine.strip() + endings
@@ -164,7 +165,7 @@ class InsertCopyrightCommand(CopyrightCommand):
             copyright += self.firstLine.strip() + endings
 
         lines = map(make_comment, text.split(endings))
-        copyright += reduce(concatenate, lines)
+        copyright += functools.reduce(concatenate, lines)
 
         for i in range(padding):
             copyright += self.lastLine.strip() + endings
